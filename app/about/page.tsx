@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ProjectCta } from "@/app/components/project-cta";
 import { Reveal } from "@/app/components/reveal";
-import { AboutBackgroundParticles } from "@/app/components/about-background-particles";
+import { SharedBackgroundParticles } from "@/app/components/shared-background-particles";
 
 export const metadata: Metadata = { title: "About", description: "The practice, path and design thinking behind Ezz Eldin's work." };
 
@@ -10,7 +10,7 @@ export default function AboutPage() {
   return (
     <main id="main-content" className="about-page-main">
       {/* Single Shared Background Particle Layer spanning full page height */}
-      <AboutBackgroundParticles />
+      <SharedBackgroundParticles />
 
       {/* 01 / Hero Section */}
       <section className="hero hero-about shell">

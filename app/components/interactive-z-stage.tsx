@@ -35,8 +35,8 @@ export function InteractiveZStage() {
       targetY = 0;
     };
 
-    parentSection.addEventListener("mousemove", handleMouseMove);
-    parentSection.addEventListener("mouseleave", handleMouseLeave);
+    parentSection.addEventListener("mousemove", handleMouseMove, { passive: true });
+    parentSection.addEventListener("mouseleave", handleMouseLeave, { passive: true });
 
     const render = (time: number) => {
       // Lerp factor around 0.08

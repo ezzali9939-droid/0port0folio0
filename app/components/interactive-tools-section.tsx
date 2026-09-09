@@ -99,8 +99,8 @@ export function InteractiveToolsSection() {
     };
 
     if (!isTouch && !reduceMotion) {
-      parentSection.addEventListener("mousemove", handleMouseMove);
-      parentSection.addEventListener("mouseleave", handleMouseLeave);
+      parentSection.addEventListener("mousemove", handleMouseMove, { passive: true });
+      parentSection.addEventListener("mouseleave", handleMouseLeave, { passive: true });
     }
 
     // Animation variables for continuous orbital movement

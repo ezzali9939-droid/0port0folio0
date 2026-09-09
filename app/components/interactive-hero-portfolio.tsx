@@ -67,8 +67,8 @@ export function InteractiveHeroPortfolio() {
       targetY = 0;
     };
 
-    parentHero.addEventListener("mousemove", handleMouseMove);
-    parentHero.addEventListener("mouseleave", handleMouseLeave);
+    parentHero.addEventListener("mousemove", handleMouseMove, { passive: true });
+    parentHero.addEventListener("mouseleave", handleMouseLeave, { passive: true });
 
     const render = (time: number) => {
       // Lerp physics (0.08 factor)
