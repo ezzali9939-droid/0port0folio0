@@ -1,0 +1,38 @@
+{
+  "colors": {
+    "canvas": "#EEE8E2",
+    "canvasSoft": "#F4F0EB",
+    "ink": "#191A1A",
+    "graphite": "#2B2C2D",
+    "metal": "#A7A8A7",
+    "panel": "#0B0C0D",
+    "panelSoft": "#111315",
+    "signal": "#00A6FF",
+    "rule": "rgba(25, 26, 26, 0.18)"
+  },
+  "type": {
+    "sans": "Manrope, Helvetica Neue, Arial, sans-serif",
+    "display": "Manrope, Helvetica Neue, Arial, sans-serif",
+    "serif": "Cormorant Garamond, Georgia, serif",
+    "micro": "Manrope, Helvetica Neue, Arial, sans-serif"
+  },
+  "layout": {
+    "maxWidth": 1440,
+    "desktopGutter": 64,
+    "tabletGutter": 32,
+    "mobileGutter": 20,
+    "sectionRule": 1
+  },
+  "motion": {
+    "quick": 0.24,
+    "standard": 0.65,
+    "cinematic": 1.2,
+    "ease": [0.22, 1, 0.36, 1],
+    "reducedMotionFallback": "fade"
+  },
+  "rendering": {
+    "assetMode": "2.5D",
+    "runnerCharacter": false,
+    "useTrueThreeD": false
+  }
+}

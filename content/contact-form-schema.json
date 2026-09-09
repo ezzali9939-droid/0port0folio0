@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": {"type": "text", "required": true, "minLength": 2, "maxLength": 80},
+    "email": {"type": "email", "required": true, "maxLength": 160},
+    "projectType": {"type": "select", "required": true, "optionsSource": "contact.json#projectTypes"},
+    "budgetRange": {"type": "select", "required": false, "optionsSource": "contact.json#budgetRanges"},
+    "message": {"type": "textarea", "required": true, "minLength": 20, "maxLength": 2000},
+    "companyWebsite": {"type": "honeypot", "required": false}
+  },
+  "behavior": {
+    "successMessage": "Thanks — your project is in. I'll get back to you with clear next steps.",
+    "errorMessage": "The message wasn't sent. Check the highlighted fields and try again.",
+    "submissionMode": "email-and-supabase",
+    "rateLimit": "5 submissions per hour per IP"
+  }
+}

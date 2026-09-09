@@ -1,0 +1,35 @@
+{
+  "shared": {
+    "headerLogoLight": "/assets/brand/logo/ez-wordmark-black.webp",
+    "headerLogoDark": "/assets/brand/logo/ez-wordmark-white.webp",
+    "footerFrame": "/assets/page-assets/global/project-cta-frame.webp",
+    "footerNetworks": ["instagram", "facebook", "linkedin", "whatsapp"]
+  },
+  "pages": {
+    "home": [
+      {"id": "hero", "asset": "/assets/portraits/home-portrait-motion-transparent.webp"},
+      {"id": "journey", "asset": "/assets/page-assets/home/journey-z-architecture.webp"},
+      {"id": "tools", "asset": "/assets/page-assets/home/tools-orbit-ring.webp"},
+      {"id": "project-cta", "asset": "/assets/page-assets/global/project-cta-frame.webp"}
+    ],
+    "about": [
+      {"id": "hero", "asset": "/assets/portraits/about-portrait-motion-transparent.webp"},
+      {"id": "practice", "asset": "/assets/page-assets/about/practice-ribbon.webp"},
+      {"id": "thinking-layers", "asset": "/assets/page-assets/about/design-thinking-layers.webp"},
+      {"id": "project-cta", "asset": "/assets/page-assets/global/project-cta-frame.webp"}
+    ],
+    "work": [
+      {"id": "hero", "asset": "/assets/page-assets/work/hero-project-mockup-cluster.webp"},
+      {"id": "selected-work", "data": "./projects.json"},
+      {"id": "process", "asset": "/assets/page-assets/work/creative-process-stages.webp"},
+      {"id": "standard", "asset": "/assets/page-assets/work/value-system-gyroscope.webp"},
+      {"id": "project-cta", "asset": "/assets/page-assets/global/project-cta-frame.webp"}
+    ],
+    "contact": [
+      {"id": "hero", "reference": "/assets/page-assets/contact/form-circuit-visual-reference.webp", "implementation": "semantic-form-and-svg-circuit"},
+      {"id": "message-process", "asset": "/assets/page-assets/contact/message-processing-pipeline.webp"},
+      {"id": "project-calibration", "asset": "/assets/page-assets/contact/project-calibration-frame.webp"},
+      {"id": "project-cta", "asset": "/assets/page-assets/global/project-cta-frame.webp"}
+    ]
+  }
+}
