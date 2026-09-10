@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Great_Vibes } from "next/font/google";
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/cormorant";
 import "@fontsource/alex-brush";
@@ -7,6 +8,13 @@ import "./globals.css";
 import { PageChoreography } from "@/app/components/page-choreography";
 import { SiteFooter } from "@/app/components/site-footer";
 import { SiteHeader } from "@/app/components/site-header";
+
+const greatVibes = Great_Vibes({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-great-vibes",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -33,15 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Great+Vibes&family=Sacramento&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={greatVibes.variable} suppressHydrationWarning>
       <body suppressHydrationWarning>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <PageChoreography />
@@ -52,3 +52,4 @@ export default function RootLayout({
     </html>
   );
 }
+

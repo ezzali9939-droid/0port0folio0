@@ -48,7 +48,7 @@ textarea {
 
 em,
 .signature-accent {
-  font-family: "Alex Brush", "Sacramento", "Great Vibes", var(--font-signature), cursive !important;
+  font-family: "Alex Brush", "Sacramento", var(--font-great-vibes), "Great Vibes", var(--font-signature), cursive !important;
   font-style: normal !important;
   font-weight: 400 !important;
   text-transform: none !important;
