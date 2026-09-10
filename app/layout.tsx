@@ -5,6 +5,7 @@ import "@fontsource-variable/cormorant";
 import "@fontsource/alex-brush";
 import "@fontsource/sacramento";
 import "./globals.css";
+import { EZIntroOverlay } from "@/app/components/ez-intro-overlay";
 import { PageChoreography } from "@/app/components/page-choreography";
 import { RouteLoadingOverlay } from "@/app/components/route-loading-overlay";
 import { SiteFooter } from "@/app/components/site-footer";
@@ -46,6 +47,7 @@ export default function RootLayout({
     <html lang="en" className={greatVibes.variable} suppressHydrationWarning>
       <body suppressHydrationWarning>
         <a className="skip-link" href="#main-content">Skip to content</a>
+        <EZIntroOverlay />
         <RouteLoadingOverlay />
         <PageChoreography />
         <SiteHeader />

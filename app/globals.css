@@ -3978,3 +3978,92 @@ em,
   animation: ezLogoPulse 1.2s ease-in-out infinite;
 }
 
+/* ==========================================================================
+   Full-Screen 3D EZ Logo Entrance Overlay ("BLACK / WHITE PRECISION")
+   ========================================================================== */
+.ez-intro-overlay-root {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  width: 100vw;
+  height: 100vh;
+  background: #141414;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: auto;
+  perspective: 1400px;
+  will-change: opacity;
+}
+
+.ez-intro-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ez-layer-dark {
+  z-index: 1;
+  background: #141414;
+}
+
+.ez-layer-light {
+  z-index: 2;
+  background: #F4F2ED;
+  will-change: clip-path;
+}
+
+.ez-intro-stage {
+  position: relative;
+  width: min(84vw, 860px);
+  max-width: 860px;
+  aspect-ratio: 956 / 412;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.ez-logo-assembly-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  transform-style: preserve-3d;
+}
+
+.ez-intro-svg-master {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.ez-piece {
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+}
+
+.ez-slogan-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: clamp(16px, 3vw, 28px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  will-change: clip-path, transform, opacity;
+}
+
+/* Mobile responsive padding & scaling */
+@media (max-width: 768px) {
+  .ez-intro-stage {
+    width: min(90vw, 420px);
+    aspect-ratio: 956 / 412;
+  }
+}
+
+

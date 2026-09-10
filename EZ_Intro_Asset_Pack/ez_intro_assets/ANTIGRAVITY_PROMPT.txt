@@ -1,0 +1,83 @@
+Build a premium full-screen website intro for my existing portfolio using the supplied vector assets in /ez_intro_assets.
+
+GOAL
+When a visitor opens the deployed Vercel URL, this intro is the very first visual. The six EZ monogram pieces assemble into the exact finished logo, the slogan “DESIGNS THAT SPEAK STORIES THAT LAST” appears, then the intro transitions directly into the existing Home page.
+
+STRICT LOGO ACCURACY
+Use these exact files; do not redraw, reinterpret, stretch, round, crop, or alter them:
+- piece-01-e-top.svg
+- piece-02-e-middle.svg
+- piece-03-e-bottom.svg
+- piece-04-z-top.svg
+- piece-05-z-diagonal.svg
+- piece-06-z-bottom.svg
+- slogan.svg
+- ez-logo-master.svg
+- assembly-map.json
+
+All supplied SVG paths use currentColor. Preserve the genuine hollow/outlined parts and all negative space. assembly-map.json contains exact final positions derived from the master artwork. The final assembled silhouette must pixel-align with ez-logo-master.svg.
+
+CREATIVE DIRECTION — “BLACK / WHITE PRECISION”
+Total intro duration: 3.6–4.2 seconds. Premium, minimal, cinematic, intelligent — not a generic loading screen.
+
+0.00–0.30s
+Start from pure #141414 / near-black. No spinner, no percentage, no loading text. A very subtle white specular sweep reveals tiny edges of the six pieces.
+
+0.30–2.20s — SMART ASSEMBLY
+Bring the six pieces from controlled off-axis 3D positions:
+- E top: enters from upper-left, slight rotateX
+- E middle: short forward Z-depth push from center
+- E bottom: enters from lower-left
+- Z top: enters from upper-right
+- Z diagonal: rotates into the exact diagonal connection as the visual “key” moment
+- Z bottom: enters from lower-right
+
+Use perspective/depth, very small motion blur only while moving, and spring-like deceleration with zero bounce at the final lock. Pieces must never look rubbery.
+The six pieces should arrive in a deliberately staggered rhythm, then snap into perfect registration in the last 180–220ms.
+
+During assembly, create a black/white inversion interaction:
+a soft vertical light plane passes through the composition once; whichever part is on the lit side renders white while the opposite side stays near-black against an off-white field. Do this with CSS masks/blend/clipping or duplicated layers — never recolor the vector artwork itself.
+The background may transition once from #141414 to #F4F2ED and back, but keep it restrained and high-end.
+
+2.20–2.75s — PERFECT LOCK
+Logo is now fully assembled and centered. Hold it long enough to read. Add one extremely subtle depth settle (1–2px equivalent) and a clean highlight travelling across the contours. No glow, neon, particles, smoke, lens flare, or gaming-style effects.
+
+2.75–3.35s — SLOGAN
+Reveal slogan.svg directly below the logo, centered, at its real proportions.
+Animate it with a fast masked horizontal reveal + tiny tracking settle. Do not type it letter-by-letter.
+Keep typography exactly as in the supplied slogan vector.
+
+3.35–4.00s — ENTER HOME
+The complete logo lockup scales down slightly while the intro background opens/reveals the actual Home page behind it.
+Transition using a sharp central mask/iris or vertical split that echoes the E/Z geometry.
+Fade/move the intro out and leave the Home page fully interactive.
+Do not leave an extra blank frame between intro and Home.
+
+IMPLEMENTATION
+- Integrate into the existing project; do not create a separate fake landing page.
+- Keep the current website design, layout, routes, header, and Home page unchanged.
+- The intro must run on first page entry / hard refresh of the deployed site.
+- Run once per browser session using sessionStorage. Internal navigation must NOT replay it.
+- Respect prefers-reduced-motion: show the completed logo briefly (~500ms), then open Home without 3D motion.
+- Lock scrolling/pointer interaction only while intro is active, then restore immediately.
+- Preload only the intro SVG assets and critical Home hero assets needed for the first paint.
+- No heavy video file. No canvas unless absolutely required. Prefer SVG + CSS transforms + GSAP if GSAP already exists in the project; otherwise use the project’s existing animation library.
+- Animate only transform and opacity where possible. Avoid layout-triggering properties.
+- Use will-change only during active animation and remove it afterward.
+- Ensure 60fps target on modern desktop and strong mobile performance.
+- Mobile: preserve composition, fit the full logo with safe horizontal padding, reduce 3D travel distances, keep exact proportions.
+- Clean up timelines/listeners on unmount.
+- Intro overlay should use fixed inset-0, highest required z-index, and disappear from the DOM after completion.
+- Do not delay Home rendering behind a fake timer. Begin exit as soon as assets are ready, while preserving the designed timing ceiling.
+- Do not modify any existing visual element outside the intro.
+
+QUALITY CHECKS BEFORE FINISHING
+1. Overlay ez-logo-master.svg at 50% opacity over the assembled six pieces: there must be no visible mismatch.
+2. Verify all outlined parts remain hollow.
+3. Verify slogan is not distorted.
+4. Test desktop + mobile + refresh + internal navigation + back navigation.
+5. Confirm there is no flash of unstyled/white content before the intro.
+6. Confirm Lighthouse/performance is not materially degraded.
+7. Remove unused intro experiments, duplicate assets, dead code, and console logs.
+
+Deliver the implementation production-ready and keep all intro code isolated so it can be adjusted or removed without touching the rest of the website.

@@ -1,0 +1,137 @@
+{
+  "source_viewBox": [
+    0,
+    0,
+    956,
+    412
+  ],
+  "monogram_viewBox": [
+    0,
+    0,
+    956,
+    330
+  ],
+  "tagline": "DESIGNS THAT SPEAK STORIES THAT LAST",
+  "color_behavior": "All SVGs use currentColor, so CSS can switch between #fff and #141414 without separate assets.",
+  "pieces": [
+    {
+      "id": "piece-01-e-top",
+      "file": "piece-01-e-top.svg",
+      "masterPosition": {
+        "x": 99,
+        "y": 0
+      },
+      "cropSize": {
+        "width": 369,
+        "height": 73
+      },
+      "bbox": {
+        "x": 102,
+        "y": 0,
+        "width": 363,
+        "height": 70
+      }
+    },
+    {
+      "id": "piece-02-e-middle",
+      "file": "piece-02-e-middle.svg",
+      "masterPosition": {
+        "x": 99,
+        "y": 119
+      },
+      "cropSize": {
+        "width": 369,
+        "height": 76
+      },
+      "bbox": {
+        "x": 102,
+        "y": 122,
+        "width": 363,
+        "height": 70
+      }
+    },
+    {
+      "id": "piece-03-e-bottom",
+      "file": "piece-03-e-bottom.svg",
+      "masterPosition": {
+        "x": 99,
+        "y": 240
+      },
+      "cropSize": {
+        "width": 370,
+        "height": 76
+      },
+      "bbox": {
+        "x": 102,
+        "y": 243,
+        "width": 364,
+        "height": 70
+      }
+    },
+    {
+      "id": "piece-04-z-top",
+      "file": "piece-04-z-top.svg",
+      "masterPosition": {
+        "x": 490,
+        "y": 1
+      },
+      "cropSize": {
+        "width": 364,
+        "height": 67
+      },
+      "bbox": {
+        "x": 493,
+        "y": 4,
+        "width": 358,
+        "height": 61
+      }
+    },
+    {
+      "id": "piece-05-z-diagonal",
+      "file": "piece-05-z-diagonal.svg",
+      "masterPosition": {
+        "x": 546,
+        "y": 70
+      },
+      "cropSize": {
+        "width": 275,
+        "height": 173
+      },
+      "bbox": {
+        "x": 549,
+        "y": 73,
+        "width": 269,
+        "height": 167
+      }
+    },
+    {
+      "id": "piece-06-z-bottom",
+      "file": "piece-06-z-bottom.svg",
+      "masterPosition": {
+        "x": 514,
+        "y": 245
+      },
+      "cropSize": {
+        "width": 334,
+        "height": 66
+      },
+      "bbox": {
+        "x": 517,
+        "y": 248,
+        "width": 328,
+        "height": 60
+      }
+    }
+  ],
+  "sloganAsset": {
+    "file": "slogan.svg",
+    "masterPosition": {
+      "x": 0,
+      "y": 382
+    },
+    "cropSize": {
+      "width": 956,
+      "height": 30
+    }
+  }
+}
