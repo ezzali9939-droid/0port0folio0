@@ -2902,6 +2902,7 @@ em,
 /* Responsive Media Queries */
 /* Responsive Media Queries */
 /* Responsive Media Queries */
+/* Responsive Media Queries */
 @media (max-width: 900px) {
   .site-header {
     grid-template-columns: 1fr auto;
@@ -2922,8 +2923,9 @@ em,
     letter-spacing: 0.12em;
   }
 
+  /* 1. HOME HERO MOBILE REWORK */
   .hero {
-    min-height: clamp(620px, 85vh, 780px);
+    min-height: clamp(560px, 80vh, 720px);
   }
 
   .hero-home {
@@ -2932,27 +2934,38 @@ em,
     justify-content: flex-end;
     align-items: center;
     position: relative;
-    padding-bottom: 28px;
+    padding-bottom: 24px;
     gap: 0;
+  }
+
+  .hero-composition {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
   }
 
   .portfolio-center {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -50%);
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     z-index: 2;
     pointer-events: none;
   }
 
   .portfolio-motion-text {
-    font-size: clamp(28px, 13.5vw, 120px);
+    font-size: clamp(24px, 11.5vw, 84px);
     letter-spacing: -0.04em;
+    white-space: nowrap;
     text-align: center;
     width: 100%;
     display: flex;
@@ -2961,13 +2974,26 @@ em,
   }
 
   .home-portrait {
-    position: absolute;
-    left: 50%;
-    top: 48%;
-    transform: translate(-50%, -46%);
-    width: min(88%, 380px);
-    height: clamp(320px, 58vh, 520px);
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: 0;
+    transform: none;
+    margin: 0 auto;
+    width: min(85vw, 360px);
+    height: min(62vh, 460px);
     z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .home-portrait img {
+    object-fit: contain;
+    object-position: bottom center;
+    width: 100%;
+    height: 100%;
   }
 
   .hero-intro {
@@ -2976,16 +3002,19 @@ em,
     left: auto;
     bottom: auto;
     max-width: 100%;
-    margin-top: auto;
+    margin-top: 16px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    padding-inline: var(--gutter);
   }
 
   .hero-intro p {
     font-size: clamp(14px, 3.8vw, 18px);
+    text-align: center;
+    margin-inline: auto;
   }
 
   .hero-intro .inline-actions {
@@ -2993,6 +3022,7 @@ em,
     gap: 12px;
     justify-content: center;
     flex-wrap: wrap;
+    margin-inline: auto;
   }
 
   .hero-intro .inline-actions a {
@@ -3008,29 +3038,102 @@ em,
     display: none;
   }
 
+  /* 2. TEXT ALIGNMENT ACROSS ALL PAGES */
+  .about-intro,
+  .work-intro,
+  .contact-copy-below,
+  .journey-header,
+  .journey-title-block,
+  .journey-footer,
+  .tools-header-row,
+  .tools-title-block,
+  .tools-bottom-caption,
+  .practice-copy,
+  .personal-note-content,
+  .layers-copy,
+  .section-heading,
+  .process-stacked-copy,
+  .work-standard-section .section-copy,
+  .what-happens-next-content,
+  .strong-start-content {
+    text-align: center !important;
+    align-items: center !important;
+    margin-inline: auto !important;
+    width: 100% !important;
+  }
+
+  .about-intro p,
+  .work-intro p,
+  .contact-copy-below p,
+  .practice-copy p,
+  .layers-copy p,
+  .section-copy p,
+  .process-stacked-desc,
+  .what-happens-next-desc,
+  .strong-start-desc {
+    text-align: center !important;
+    margin-inline: auto !important;
+  }
+
+  .contact-links,
+  .journey-links {
+    justify-content: center !important;
+    text-align: center !important;
+    margin-inline: auto !important;
+  }
+
+  /* WORK PAGE ARTWORK GAP REMOVAL */
+  .hero-work {
+    min-height: auto !important;
+    padding-top: 20px !important;
+    padding-bottom: 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .hero-work .work-hero-asset {
+    position: relative !important;
+    transform: none !important;
+    top: auto !important;
+    right: auto !important;
+    width: min(100%, 460px) !important;
+    height: auto !important;
+    max-height: 240px !important;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   /* Journey Section Responsive Overrides */
   .journey-section {
     min-height: auto;
-    padding-block: 48px 36px;
+    padding-block: 44px 32px;
   }
 
   .journey-header {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
   }
 
   .journey-title {
     font-size: clamp(26px, 7vw, 42px);
     line-height: 1.1;
+    text-align: center;
   }
 
   .journey-stage {
     display: flex;
     flex-direction: column;
     min-height: auto;
-    gap: 32px;
+    gap: 28px;
     margin-top: 24px;
   }
 
@@ -3042,6 +3145,12 @@ em,
     height: auto;
     gap: 20px;
     max-width: 100%;
+    text-align: center;
+  }
+
+  .timeline-stage {
+    max-width: 100%;
+    text-align: center;
   }
 
   .z-center-wrapper {
@@ -3050,17 +3159,13 @@ em,
     top: auto;
     transform: none;
     width: 100%;
-    max-width: 360px;
+    max-width: 320px;
     aspect-ratio: 1 / 1;
     margin: 0 auto;
   }
 
   .journey-z-wrapper img {
     object-position: center;
-  }
-
-  .timeline-stage {
-    max-width: 100%;
   }
 
   .journey-ez-watermark {
@@ -3070,6 +3175,53 @@ em,
   .journey-statement {
     font-size: clamp(14px, 3.8vw, 18px);
     line-height: 1.35;
+    text-align: center;
+  }
+
+  /* 3. TOOLS SECTION MOBILE RECALCULATION */
+  .tools-interactive-container {
+    height: clamp(380px, 50vh, 480px);
+    width: 100%;
+    margin-inline: auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tools-ring-stage.auto-3d-orbit {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: min(64vw, 220px) !important;
+    max-width: 220px !important;
+    height: auto !important;
+    margin: 0 !important;
+  }
+
+  .tools-orbit-svg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 82%;
+  }
+
+  .tool-node-item {
+    gap: 4px;
+    white-space: nowrap;
+  }
+
+  .tool-badge {
+    min-width: 26px;
+    min-height: 26px;
+    font-size: 9px;
+  }
+
+  .tool-label {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    font-weight: 700;
   }
 
   /* Section & Split Panels */
@@ -3080,7 +3232,7 @@ em,
 
   .section {
     min-height: auto;
-    padding-block: 48px;
+    padding-block: 44px;
   }
 
   .visual-panel {
@@ -3089,6 +3241,7 @@ em,
 
   .section-copy {
     max-width: 100%;
+    text-align: center;
   }
 
   .reverse-on-mobile .section-copy {
@@ -3107,27 +3260,28 @@ em,
   .footer-row {
     grid-template-columns: 1fr;
     gap: 24px;
+    text-align: center;
   }
 
   .footer-row nav:last-child {
-    justify-self: start;
+    justify-self: center;
   }
 
-  /* About & Work Pages */
-  .hero-about,
-  .hero-work {
+  /* About Hero */
+  .hero-about {
     padding-top: 24px;
     padding-bottom: 36px;
     display: flex;
     flex-direction: column;
     gap: 24px;
+    align-items: center;
+    text-align: center;
   }
 
-  .about-portrait,
-  .work-hero-asset {
+  .about-portrait {
     position: relative !important;
     width: 100% !important;
-    max-width: 440px !important;
+    max-width: 420px !important;
     height: 320px !important;
     top: auto !important;
     margin: 0 auto !important;
@@ -3136,16 +3290,17 @@ em,
     overflow: hidden;
   }
 
-  .about-intro,
-  .work-intro {
+  .about-intro {
     margin-top: 0;
     width: 100%;
+    text-align: center;
   }
 
   .about-title,
   .work-title {
-    font-size: clamp(48px, 12vw, 84px);
-    margin-bottom: 24px;
+    font-size: clamp(44px, 11.5vw, 84px);
+    margin-bottom: 20px;
+    text-align: center;
   }
 
   .project-grid,
@@ -3172,6 +3327,7 @@ em,
   .contact-hero {
     padding-top: 24px;
     padding-bottom: 40px;
+    text-align: center;
   }
 
   .contact-left-content {
@@ -3181,6 +3337,7 @@ em,
     bottom: auto;
     width: 100%;
     pointer-events: auto;
+    text-align: center;
   }
 
   .contact-wordmark-above {
@@ -3188,6 +3345,7 @@ em,
     top: auto;
     transform: none;
     margin-bottom: 16px;
+    text-align: center;
   }
 
   .contact-giant-heading {
@@ -3195,6 +3353,7 @@ em,
     font-size: clamp(36px, 11vw, 76px);
     letter-spacing: -0.02em;
     line-height: 1;
+    text-align: center;
   }
 
   .contact-copy-below {
@@ -3202,6 +3361,7 @@ em,
     top: auto;
     max-width: 100%;
     margin-bottom: 24px;
+    text-align: center;
   }
 
   .circuit-form {
@@ -3245,13 +3405,17 @@ em,
     align-items: stretch;
   }
 
-  .contact-form label {
+  /* Preserve left-aligned labels inside form fields */
+  .contact-form label,
+  .form-row label {
     font-size: 11px;
     font-weight: 650;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--ink);
     width: 100%;
+    text-align: left !important;
+    align-self: flex-start !important;
   }
 
   .contact-form input,

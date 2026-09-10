@@ -135,13 +135,22 @@ export function InteractiveToolsSection() {
         const rotation = ((elapsed % REVOLUTION_MS) / REVOLUTION_MS) * 2 * Math.PI;
 
         const containerWidth = containerRef.current.clientWidth;
-        let scale = 1;
-        if (containerWidth < 540) scale = 0.72;
-        else if (containerWidth < 768) scale = 0.82;
-        else if (containerWidth < 1024) scale = 0.90;
+        let cx = CX;
+        let cy = CY;
+        let rx = RX_BASE;
+        let ry = RY_BASE;
 
-        const rx = RX_BASE * scale;
-        const ry = RY_BASE * scale;
+        if (containerWidth < 900) {
+          cx = 50.0;
+          cy = 50.0;
+          rx = containerWidth < 480 ? 35.0 : 38.0;
+          ry = containerWidth < 480 ? 34.0 : 36.0;
+        } else {
+          let scale = 1;
+          if (containerWidth < 1024) scale = 0.90;
+          rx = RX_BASE * scale;
+          ry = RY_BASE * scale;
+        }
 
         const numTools = TOOLS_LIST.length;
         toolNodeRefs.current.forEach((el, i) => {
@@ -149,8 +158,8 @@ export function InteractiveToolsSection() {
           const phaseOffset = (i / numTools) * 2 * Math.PI;
           const angle = BASE_START_ANGLE + phaseOffset + rotation;
 
-          const x = CX + rx * Math.cos(angle);
-          const y = CY + ry * Math.sin(angle);
+          const x = cx + rx * Math.cos(angle);
+          const y = cy + ry * Math.sin(angle);
 
           el.style.left = `${x.toFixed(3)}%`;
           el.style.top = `${y.toFixed(3)}%`;
@@ -175,10 +184,10 @@ export function InteractiveToolsSection() {
   return (
     <div ref={containerRef} className="tools-interactive-container">
       {/* SVG Orbit Lines & Technical Guide Overlay */}
-      <svg className="tools-orbit-svg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
-        <ellipse cx="640" cy="350" rx="530" ry="265" stroke="var(--ink)" strokeOpacity="0.09" strokeWidth="1" fill="none" strokeDasharray="4 4" />
-        <ellipse cx="640" cy="350" rx="420" ry="205" stroke="var(--ink)" strokeOpacity="0.06" strokeWidth="1" fill="none" />
-        <line x1="120" y1="350" x2="1160" y2="350" stroke="var(--ink)" strokeOpacity="0.04" strokeWidth="1" />
+      <svg className="tools-orbit-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <ellipse cx="500" cy="300" rx="360" ry="200" stroke="var(--ink)" strokeOpacity="0.09" strokeWidth="1" fill="none" strokeDasharray="4 4" />
+        <ellipse cx="500" cy="300" rx="280" ry="150" stroke="var(--ink)" strokeOpacity="0.06" strokeWidth="1" fill="none" />
+        <line x1="100" y1="300" x2="900" y2="300" stroke="var(--ink)" strokeOpacity="0.04" strokeWidth="1" />
       </svg>
 
       {/* Decorative Technical Marks Layer (13 elements) */}
