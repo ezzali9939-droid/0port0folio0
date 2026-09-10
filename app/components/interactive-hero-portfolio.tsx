@@ -32,12 +32,43 @@ export function InteractiveHeroPortfolio() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    const wordInner = containerRef.current?.querySelector<HTMLElement>(".portfolio-motion-text");
+    if (!wordInner) return;
+
+    const fitWord = () => {
+      if (window.innerWidth >= 901) {
+        wordInner.style.fontSize = "";
+        return;
+      }
+      // Target width: viewport minus 12px padding on each side (24px total)
+      const targetWidth = Math.min(window.innerWidth - 24, 880);
+      wordInner.style.fontSize = "100px";
+      const naturalWidth = wordInner.getBoundingClientRect().width;
+      if (naturalWidth > 0) {
+        const fittedSize = (targetWidth / naturalWidth) * 100;
+        wordInner.style.fontSize = `${Math.min(Math.max(fittedSize, 32), 92).toFixed(2)}px`;
+      }
+    };
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(fitWord);
+    } else {
+      fitWord();
+    }
+
+    window.addEventListener("resize", fitWord, { passive: true });
+    window.addEventListener("orientationchange", fitWord, { passive: true });
+
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    if (reduceMotion || isTouch) return;
+    if (reduceMotion || isTouch) {
+      return () => {
+        window.removeEventListener("resize", fitWord);
+        window.removeEventListener("orientationchange", fitWord);
+      };
+    }
 
     const parentHero = containerRef.current?.closest(".hero-home") as HTMLElement | null;
-    const wordInner = containerRef.current?.querySelector<HTMLElement>(".portfolio-motion-text");
     const letterEls = containerRef.current?.querySelectorAll<HTMLElement>(".hero-letter");
     const markEls = containerRef.current?.querySelectorAll<HTMLElement>(".hero-mark-item");
     const connectLines = svgRef.current?.querySelectorAll<SVGLineElement>(".connect-line");
@@ -145,6 +176,8 @@ export function InteractiveHeroPortfolio() {
 
     return () => {
       cancelAnimationFrame(animFrameId);
+      window.removeEventListener("resize", fitWord);
+      window.removeEventListener("orientationchange", fitWord);
       parentHero.removeEventListener("mousemove", handleMouseMove);
       parentHero.removeEventListener("mouseleave", handleMouseLeave);
     };

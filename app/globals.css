@@ -2961,17 +2961,17 @@ em,
     text-align: center;
     z-index: 2;
     pointer-events: none;
-    padding-inline: 14px;
+    padding-inline: 12px;
     box-sizing: border-box;
   }
 
   .portfolio-motion-text {
-    font-size: clamp(60px, 20.8vw, 96px);
+    font-size: clamp(38px, 17.6vw, 84px);
     letter-spacing: -0.04em;
     white-space: nowrap;
     text-align: center;
     width: auto;
-    max-width: 100%;
+    max-width: calc(100vw - 24px);
     display: flex;
     justify-content: center;
     align-items: center;
