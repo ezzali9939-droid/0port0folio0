@@ -6,6 +6,7 @@ import "@fontsource/alex-brush";
 import "@fontsource/sacramento";
 import "./globals.css";
 import { PageChoreography } from "@/app/components/page-choreography";
+import { RouteLoadingOverlay } from "@/app/components/route-loading-overlay";
 import { SiteFooter } from "@/app/components/site-footer";
 import { SiteHeader } from "@/app/components/site-header";
 
@@ -30,8 +31,9 @@ export const metadata: Metadata = {
   openGraph: { title: "Ezz Eldin — Graphic & Visual Designer", description: "Designs that speak. Stories that last.", type: "website", images: ["/assets/portraits/home-portrait-motion-transparent.webp"] },
   twitter: { card: "summary_large_image" },
   icons: {
-    icon: "/assets/brand/logo/favicon-512.webp",
-    shortcut: "/assets/brand/logo/favicon-512.webp",
+    icon: "/assets/brand/logo/ez-wordmark-black.webp",
+    shortcut: "/assets/brand/logo/ez-wordmark-black.webp",
+    apple: "/assets/brand/logo/ez-symbol-black.webp",
   },
 };
 
@@ -44,6 +46,7 @@ export default function RootLayout({
     <html lang="en" className={greatVibes.variable} suppressHydrationWarning>
       <body suppressHydrationWarning>
         <a className="skip-link" href="#main-content">Skip to content</a>
+        <RouteLoadingOverlay />
         <PageChoreography />
         <SiteHeader />
         {children}

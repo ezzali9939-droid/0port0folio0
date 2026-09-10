@@ -3902,3 +3902,79 @@ em,
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================================================
+   Custom EZ Logo Loading Indicator & Transition System
+   ========================================================================== */
+.ez-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--canvas-soft, #f4f0eb);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.ez-loading-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ez-loading-logo-wrapper {
+  position: relative;
+  width: min(180px, 45vw);
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ez-loading-logo {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  animation: ezLogoPulse 1.6s ease-in-out infinite;
+}
+
+.ez-loading-subtext {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink);
+  opacity: 0.65;
+}
+
+@keyframes ezLogoPulse {
+  0%, 100% {
+    transform: scale(0.96);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+/* Compact Button EZ Logo Indicator */
+.ez-btn-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ez-btn-logo-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  animation: ezLogoPulse 1.2s ease-in-out infinite;
+}
+
