@@ -43,3 +43,6 @@ next-env.d.ts
 /outputs/
 /scratch/
 supabase/.temp/
+
+.vercel
+.env*

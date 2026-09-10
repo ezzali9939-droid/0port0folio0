@@ -2901,10 +2901,11 @@ em,
 
 /* Responsive Media Queries */
 /* Responsive Media Queries */
+/* Responsive Media Queries */
 @media (max-width: 900px) {
   .site-header {
     grid-template-columns: 1fr auto;
-    height: 84px;
+    height: 76px;
   }
 
   .site-header .desktop-nav {
@@ -2917,10 +2918,12 @@ em,
     justify-content: center;
     min-height: 44px;
     min-width: 44px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
   }
 
   .hero {
-    min-height: 720px;
+    min-height: clamp(620px, 85vh, 780px);
   }
 
   .hero-home {
@@ -2928,36 +2931,69 @@ em,
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+    position: relative;
+    padding-bottom: 28px;
     gap: 0;
   }
 
-  .portfolio-motion-text {
-    font-size: clamp(32px, 14.5vw, 140px);
-  }
-
-  .hero-word {
+  .portfolio-center {
     position: absolute;
-    font-size: clamp(48px, 15vw, 120px);
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
   }
 
-  .hero-word-left {
-    left: 0;
-  }
-
-  .hero-word-right {
-    right: 0;
+  .portfolio-motion-text {
+    font-size: clamp(34px, 15vw, 120px);
+    letter-spacing: -0.04em;
+    text-align: center;
   }
 
   .home-portrait {
-    width: 82%;
-    height: 70%;
-    margin: auto;
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -46%);
+    width: min(88%, 380px);
+    height: clamp(320px, 58vh, 520px);
+    z-index: 3;
   }
 
   .hero-intro {
-    left: var(--gutter);
-    bottom: 6%;
-    max-width: calc(100% - (var(--gutter) * 2));
+    position: relative;
+    z-index: 4;
+    left: auto;
+    bottom: auto;
+    max-width: 100%;
+    margin-top: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-intro p {
+    font-size: clamp(14px, 3.8vw, 18px);
+  }
+
+  .hero-intro .inline-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-intro .inline-actions a {
+    min-height: 44px;
+    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.12em;
   }
 
   .page-index {
@@ -2967,7 +3003,19 @@ em,
   /* Journey Section Responsive Overrides */
   .journey-section {
     min-height: auto;
-    padding-block: 50px 40px;
+    padding-block: 48px 36px;
+  }
+
+  .journey-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .journey-title {
+    font-size: clamp(26px, 7vw, 42px);
+    line-height: 1.1;
   }
 
   .journey-stage {
@@ -2975,6 +3023,7 @@ em,
     flex-direction: column;
     min-height: auto;
     gap: 32px;
+    margin-top: 24px;
   }
 
   .journey-timeline {
@@ -2983,7 +3032,7 @@ em,
     top: auto;
     transform: none;
     height: auto;
-    gap: 24px;
+    gap: 20px;
     max-width: 100%;
   }
 
@@ -2993,7 +3042,8 @@ em,
     top: auto;
     transform: none;
     width: 100%;
-    max-width: 480px;
+    max-width: 360px;
+    aspect-ratio: 1 / 1;
     margin: 0 auto;
   }
 
@@ -3009,20 +3059,28 @@ em,
     display: none;
   }
 
+  .journey-statement {
+    font-size: clamp(14px, 3.8vw, 18px);
+    line-height: 1.35;
+  }
+
+  /* Section & Split Panels */
   .split-section {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
 
   .section {
     min-height: auto;
+    padding-block: 48px;
   }
 
   .visual-panel {
-    min-height: 440px;
+    min-height: 320px;
   }
 
   .section-copy {
-    max-width: 640px;
+    max-width: 100%;
   }
 
   .reverse-on-mobile .section-copy {
@@ -3031,31 +3089,43 @@ em,
 
   .cta-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
 
   .metallic-frame-container {
-    min-height: 320px;
+    min-height: 280px;
   }
 
   .footer-row {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
 
   .footer-row nav:last-child {
     justify-self: start;
   }
 
+  /* About & Work Pages */
   .hero-about,
   .hero-work {
-    padding-top: 20px;
+    padding-top: 24px;
+    padding-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
   .about-portrait,
   .work-hero-asset {
+    position: relative !important;
     width: 100% !important;
-    height: 60% !important;
-    top: 5% !important;
-    opacity: 0.35;
+    max-width: 440px !important;
+    height: 320px !important;
+    top: auto !important;
+    margin: 0 auto !important;
+    opacity: 1 !important;
+    border-radius: 6px;
+    overflow: hidden;
   }
 
   .about-intro,
@@ -3066,14 +3136,15 @@ em,
 
   .about-title,
   .work-title {
-    font-size: clamp(52px, 13vw, 96px);
-    margin-bottom: 32px;
+    font-size: clamp(48px, 12vw, 84px);
+    margin-bottom: 24px;
   }
 
   .project-grid,
   .practice-grid,
   .layers-grid {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
 
   .project-card-wide {
@@ -3082,15 +3153,17 @@ em,
 
   .project-gallery {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .project-gallery figure:nth-child(5n + 1) {
     grid-column: auto;
   }
 
+  /* Contact Page & Ring Form */
   .contact-hero {
-    padding-top: 30px;
-    padding-bottom: 50px;
+    padding-top: 24px;
+    padding-bottom: 40px;
   }
 
   .contact-left-content {
@@ -3106,26 +3179,100 @@ em,
     position: relative;
     top: auto;
     transform: none;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .contact-giant-heading {
     white-space: normal;
-    font-size: clamp(48px, 12vw, 96px);
+    font-size: clamp(36px, 11vw, 76px);
+    letter-spacing: -0.02em;
+    line-height: 1;
   }
 
   .contact-copy-below {
     position: relative;
     top: auto;
     max-width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
 
   .circuit-form {
+    position: relative;
+    width: min(100%, 540px);
+    margin: 24px auto 0;
+    min-height: auto;
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 18px;
+    background: rgba(244, 240, 235, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+  }
+
+  .circuit-form > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.12;
+    border-radius: 12px;
+    pointer-events: none;
+  }
+
+  .contact-form {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
     width: 100%;
     max-width: 100%;
-    margin: 0 auto;
-    aspect-ratio: 1774 / 887;
+    gap: 14px;
+    text-align: left;
+    align-items: stretch;
+  }
+
+  .contact-form label {
+    font-size: 11px;
+    font-weight: 650;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    width: 100%;
+  }
+
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    min-height: 44px;
+    width: 100%;
+    font-size: 14px;
+    padding: 10px 14px;
+    background: var(--canvas);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    color: var(--ink);
+    box-sizing: border-box;
+  }
+
+  .contact-form button[type="submit"] {
+    min-height: 48px;
+    width: 100%;
+    font-size: 12px;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
   }
 }
 
@@ -3135,7 +3282,7 @@ em,
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     justify-content: flex-start;
-    padding-bottom: 6px;
+    padding-bottom: 8px;
     margin-bottom: 20px;
     scrollbar-width: none;
   }
@@ -3146,8 +3293,10 @@ em,
 
   .filter-pill {
     min-height: 44px;
-    padding: 10px 16px;
+    padding: 10px 18px;
     flex-shrink: 0;
+    font-size: 11px;
+    letter-spacing: 0.12em;
   }
 
   .carousel-card-item {
@@ -3156,19 +3305,35 @@ em,
   }
 
   .ribbon-label-item {
-    font-size: clamp(6.5px, 1.8vw, 9px);
+    font-size: clamp(7.5px, 2.2vw, 10.5px);
+    letter-spacing: 0.12em;
   }
 
+  .label-identity { left: 17.5%; transform: translate(-50%, -8px); }
+  .label-campaigns { left: 32%; transform: translate(-50%, 2px); }
+  .label-print { left: 47%; transform: translate(-50%, 4px); }
+  .label-digital { left: 62.5%; transform: translate(-50%, 8px); }
+  .label-uiux { left: 79.5%; transform: translate(-50%, 16px); }
+
   .layer-annotations-container {
-    left: 60%;
+    position: absolute;
+    right: 8px;
+    left: auto;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-block: 4%;
   }
 
   .annotation-line {
-    width: 24px;
+    width: 18px;
   }
 
   .annotation-text {
     font-size: 8px;
+    letter-spacing: 0.12em;
   }
 }
 
@@ -3186,24 +3351,20 @@ em,
   }
 
   .home-portrait {
-    width: 92%;
-    height: 70%;
-  }
-
-  .hero-intro {
-    bottom: 4%;
+    width: min(92%, 360px);
+    height: clamp(300px, 54vh, 480px);
   }
 
   .visual-panel {
-    min-height: 360px;
+    min-height: 320px;
   }
 
   .section {
-    padding-block: 60px;
+    padding-block: 40px;
   }
 
   .cta-frame {
-    min-height: 320px;
+    min-height: 280px;
   }
 
   .project-meta {
@@ -3224,7 +3385,7 @@ em,
   }
 
   .contact-title > span {
-    margin-bottom: 34px;
+    margin-bottom: 24px;
   }
 }
 
