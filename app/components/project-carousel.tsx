@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence } from "motion/react";
 import type { Project } from "@/app/lib/data";
 import { ProjectOverlay } from "@/app/components/project-overlay";
@@ -26,12 +27,13 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const pointerStartRef = useRef<{ x: number; scrollLeft: number; time: number }>({
+
+  const pointerStartRef = useRef<{ x: number; y: number; scrollLeft: number }>({
     x: 0,
+    y: 0,
     scrollLeft: 0,
-    time: 0,
   });
-  const hasMovedRef = useRef<boolean>(false);
+  const isSwipingRef = useRef<boolean>(false);
 
   // Filter projects based on category
   const filteredProjects = projects.filter((p) => {
@@ -141,25 +143,19 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
     }
   };
 
-  // Mouse Pointer Dragging handlers
+  // Pointer gesture handlers with clean tap/swipe disambiguation threshold (14px)
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.button !== 0 && e.pointerType === "mouse") return;
     const container = scrollContainerRef.current;
     if (!container) return;
 
     setIsDragging(true);
-    hasMovedRef.current = false;
+    isSwipingRef.current = false;
     pointerStartRef.current = {
       x: e.clientX,
+      y: e.clientY,
       scrollLeft: container.scrollLeft,
-      time: Date.now(),
     };
-
-    if (e.pointerType === "mouse") {
-      try {
-        container.setPointerCapture(e.pointerId);
-      } catch {}
-    }
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -168,33 +164,37 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
     if (!container) return;
 
     const deltaX = e.clientX - pointerStartRef.current.x;
-    if (Math.abs(deltaX) > 6) {
-      hasMovedRef.current = true;
+    const deltaY = e.clientY - pointerStartRef.current.y;
+    const distance = Math.hypot(deltaX, deltaY);
+
+    // Distinguish intentional swipe gesture from a tap (14px threshold)
+    if (distance > 14) {
+      isSwipingRef.current = true;
     }
+
+    // Support mouse drag panning
     if (e.pointerType === "mouse") {
       container.scrollLeft = pointerStartRef.current.scrollLeft - deltaX;
     }
   };
 
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+  const handlePointerUp = () => {
     if (!isDragging) return;
-    const container = scrollContainerRef.current;
     setIsDragging(false);
-
-    if (container && e.pointerType === "mouse") {
-      try {
-        if (container.hasPointerCapture(e.pointerId)) {
-          container.releasePointerCapture(e.pointerId);
-        }
-      } catch {}
-
-      // Snap to nearest card on drag release
-      handleScroll();
-    }
+    handleScroll();
   };
 
-  const handleCardClick = (slug: string) => {
-    if (hasMovedRef.current) return; // Prevent card click if user was dragging/swiping
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, slug: string) => {
+    if (isSwipingRef.current) {
+      // User was intentionally swiping/dragging, suppress navigation
+      e.preventDefault();
+      e.stopPropagation();
+      isSwipingRef.current = false;
+      return;
+    }
+
+    // Normal click/tap: open detail overlay in-page
+    e.preventDefault();
     setSelectedProjectSlug(slug);
   };
 
@@ -242,20 +242,12 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                   cardRefs.current[itemIdx] = el;
                 }}
                 className={`carousel-card-item ${isActive ? "is-active" : ""}`}
-                aria-hidden={!isActive}
               >
-                <div
+                <Link
+                  href={`/work/${project.slug}`}
                   className="carousel-card-link"
-                  role="button"
-                  tabIndex={0}
                   aria-label={`Open ${project.title} project details`}
-                  onClick={() => handleCardClick(project.slug)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setSelectedProjectSlug(project.slug);
-                    }
-                  }}
+                  onClick={(e) => handleLinkClick(e, project.slug)}
                 >
                   <div className="carousel-image-box">
                     <Image
@@ -276,7 +268,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                       <span className="caption-category">{project.category}</span>
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
             );
           })}
@@ -323,6 +315,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
     </div>
   );
 }
+
 
 
 
