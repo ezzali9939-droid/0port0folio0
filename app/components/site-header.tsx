@@ -46,13 +46,8 @@ export function SiteHeader() {
     return pathname.startsWith(href);
   };
 
-  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
+  const handleMobileNavClick = () => {
     setMobileMenuOpen(false);
-    // Smoothly close menu first, then navigate
-    setTimeout(() => {
-      router.push(href);
-    }, 180);
   };
 
   return (
@@ -142,7 +137,7 @@ export function SiteHeader() {
                       href={href}
                       className={`mobile-dropdown-link ${active ? "active-link" : ""}`}
                       aria-current={active ? "page" : undefined}
-                      onClick={(e) => handleMobileNavClick(e, href)}
+                      onClick={handleMobileNavClick}
                     >
                       <span>{label}</span>
                       {active && <span className="mobile-active-dot" aria-hidden="true" />}
@@ -156,5 +151,6 @@ export function SiteHeader() {
       </AnimatePresence>
     </motion.header>
   );
+
 }
 

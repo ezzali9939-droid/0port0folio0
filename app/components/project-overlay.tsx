@@ -35,7 +35,6 @@ export function ProjectOverlay({
 
   // Lock body scroll and handle keyboard shortcuts (ESC, Left, Right)
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -50,10 +49,11 @@ export function ProjectOverlay({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = originalOverflow;
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [onClose, handlePrev, handleNext]);
+
 
   // Group gallery images into editorial layout blocks
   const gallery = project.gallery || [];

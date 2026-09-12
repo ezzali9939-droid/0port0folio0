@@ -2,42 +2,57 @@
 
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 export function RouteLoadingOverlay() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [targetPath, setTargetPath] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Clear targetPath whenever navigation completes (pathname or searchParams update)
-  useEffect(() => {
+  const clearLoading = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     setTargetPath(null);
-  }, [pathname, searchParams]);
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = "";
+      document.body.style.pointerEvents = "";
+    }
+  }, []);
 
-  // Handle browser Back/Forward (popstate), page restoration (pageshow), and visibility
+  // Clear loading state whenever navigation completes (pathname or searchParams update)
+  useEffect(() => {
+    clearLoading();
+  }, [pathname, searchParams, clearLoading]);
+
+  // Global window/lifecycle events that MUST clear loading state instantly
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const clearLoading = () => {
-      setTargetPath(null);
-    };
-
     window.addEventListener("popstate", clearLoading);
     window.addEventListener("pageshow", clearLoading);
+    window.addEventListener("focus", clearLoading);
+    window.addEventListener("error", clearLoading);
+    window.addEventListener("unhandledrejection", clearLoading);
 
-    const handleVisibilityChange = () => {
+    const handleVisibility = () => {
       if (document.visibilityState === "visible") {
         clearLoading();
       }
     };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       window.removeEventListener("popstate", clearLoading);
       window.removeEventListener("pageshow", clearLoading);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", clearLoading);
+      window.removeEventListener("error", clearLoading);
+      window.removeEventListener("unhandledrejection", clearLoading);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, []);
+  }, [clearLoading]);
 
   // Intercept client link clicks for pending loading state
   useEffect(() => {
@@ -53,6 +68,7 @@ export function RouteLoadingOverlay() {
         href.startsWith("#") ||
         href.startsWith("mailto:") ||
         href.startsWith("tel:") ||
+        href.startsWith("javascript:") ||
         target.target === "_blank" ||
         e.metaKey ||
         e.ctrlKey ||
@@ -65,11 +81,19 @@ export function RouteLoadingOverlay() {
       try {
         const url = new URL(href, window.location.href);
         const currentUrl = new URL(window.location.href);
+
+        // Only trigger loading overlay if navigating to a DIFFERENT pathname or search
         if (
           url.origin === currentUrl.origin &&
           (url.pathname !== currentUrl.pathname || url.search !== currentUrl.search)
         ) {
           setTargetPath(url.pathname + url.search);
+
+          // Fail-safe: Automatically dismiss overlay after 1000ms if navigation stalls
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => {
+            clearLoading();
+          }, 1000);
         }
       } catch {
         // Ignore invalid URLs
@@ -81,10 +105,13 @@ export function RouteLoadingOverlay() {
     return () => {
       document.removeEventListener("click", handleAnchorClick, { capture: true });
     };
-  }, []);
+  }, [clearLoading]);
 
   const currentFull = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
-  const isLoading = targetPath !== null && targetPath !== currentFull && targetPath !== pathname;
+  const isLoading =
+    targetPath !== null &&
+    targetPath !== currentFull &&
+    targetPath !== pathname;
 
   if (!isLoading) return null;
 
@@ -109,4 +136,5 @@ export function RouteLoadingOverlay() {
     </div>
   );
 }
+
 
