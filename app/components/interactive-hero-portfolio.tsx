@@ -42,11 +42,25 @@ export function InteractiveHeroPortfolio() {
       }
       // Target width: viewport minus 12px padding on each side (24px total)
       const targetWidth = Math.min(window.innerWidth - 24, 880);
+
+      // Temporarily remove max-width and set display inline-block to measure true unconstrained text width at 100px
+      const prevMaxWidth = wordInner.style.maxWidth;
+      const prevDisplay = wordInner.style.display;
+      wordInner.style.maxWidth = "none";
+      wordInner.style.display = "inline-block";
       wordInner.style.fontSize = "100px";
+
       const naturalWidth = wordInner.getBoundingClientRect().width;
+
+      // Restore style states
+      wordInner.style.maxWidth = prevMaxWidth;
+      wordInner.style.display = prevDisplay;
+
       if (naturalWidth > 0) {
         const fittedSize = (targetWidth / naturalWidth) * 100;
-        wordInner.style.fontSize = `${Math.min(Math.max(fittedSize, 32), 92).toFixed(2)}px`;
+        // Cap max mobile font size at 92px
+        const finalSize = Math.min(fittedSize, 92);
+        wordInner.style.fontSize = `${finalSize.toFixed(2)}px`;
       }
     };
 

@@ -1,0 +1,119 @@
+{
+  "canvas": {
+    "width": 956,
+    "height": 412
+  },
+  "geometry_verified": true,
+  "alpha_geometry_black_equals_white": true,
+  "final_transform_for_every_piece": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "rotation": 0,
+    "rotationX": 0,
+    "rotationY": 0,
+    "scale": 1,
+    "skewX": 0,
+    "skewY": 0,
+    "opacity": 1
+  },
+  "rendering_rule": "Each logical piece is ONE wrapper. Put its white and black full-canvas PNG children inside that same wrapper and animate ONLY the wrapper transform. Never animate or resize the black/white children independently.",
+  "pieces": [
+    {
+      "id": "01-e-top",
+      "white": "piece-01-e-top-white.png",
+      "black": "piece-01-e-top-black.png",
+      "bbox": {
+        "x": 102,
+        "y": 0,
+        "width": 363,
+        "height": 70
+      },
+      "full_canvas": {
+        "width": 956,
+        "height": 412
+      },
+      "same_geometry": true
+    },
+    {
+      "id": "02-e-middle",
+      "white": "piece-02-e-middle-white.png",
+      "black": "piece-02-e-middle-black.png",
+      "bbox": {
+        "x": 102,
+        "y": 122,
+        "width": 363,
+        "height": 70
+      },
+      "full_canvas": {
+        "width": 956,
+        "height": 412
+      },
+      "same_geometry": true
+    },
+    {
+      "id": "03-e-bottom",
+      "white": "piece-03-e-bottom-white.png",
+      "black": "piece-03-e-bottom-black.png",
+      "bbox": {
+        "x": 102,
+        "y": 243,
+        "width": 364,
+        "height": 70
+      },
+      "full_canvas": {
+        "width": 956,
+        "height": 412
+      },
+      "same_geometry": true
+    },
+    {
+      "id": "04-z-top",
+      "white": "piece-04-z-top-white.png",
+      "black": "piece-04-z-top-black.png",
+      "bbox": {
+        "x": 493,
+        "y": 4,
+        "width": 358,
+        "height": 61
+      },
+      "full_canvas": {
+        "width": 956,
+        "height": 412
+      },
+      "same_geometry": true
+    },
+    {
+      "id": "05-z-diagonal",
+      "white": "piece-05-z-diagonal-white.png",
+      "black": "piece-05-z-diagonal-black.png",
+      "bbox": {
+        "x": 549,
+        "y": 73,
+        "width": 269,
+        "height": 167
+      },
+      "full_canvas": {
+        "width": 956,
+        "height": 412
+      },
+      "same_geometry": true
+    },
+    {
+      "id": "06-z-bottom",
+      "white": "piece-06-z-bottom-white.png",
+      "black": "piece-06-z-bottom-black.png",
+      "bbox": {
+        "x": 517,
+        "y": 248,
+        "width": 328,
+        "height": 60
+      },
+      "full_canvas": {
+        "width": 956,
+        "height": 412
+      },
+      "same_geometry": true
+    }
+  ]
+}

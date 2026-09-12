@@ -1,0 +1,383 @@
+FIX / UPGRADE THE EXISTING WEBSITE INTRO USING THE NEW DUAL-COLOR PIXEL-PERFECT EZ ASSET PACK.
+
+DO NOT redesign my logo.
+DO NOT approximate any shape.
+DO NOT recreate the logo with CSS, text, strokes, SVG tracing, or guessed coordinates.
+
+The animation must assemble MY EXACT ORIGINAL EZ LOGO.
+
+ASSET FOLDER:
+ /EZ_DualColor_PixelPerfect_Intro
+
+SOURCE-OF-TRUTH FINISHED LOGOS:
+- ez-logo-exact-white.png
+- ez-logo-exact-black.png
+
+EXACT MONOGRAM REFERENCES:
+- ez-monogram-exact-white.png
+- ez-monogram-exact-black.png
+
+EXACT SLOGAN REFERENCES:
+- ez-slogan-exact-white.png
+- ez-slogan-exact-black.png
+
+EXACT SIX-PIECE PAIRS:
+1.
+piece-01-e-top-white.png
+piece-01-e-top-black.png
+
+2.
+piece-02-e-middle-white.png
+piece-02-e-middle-black.png
+
+3.
+piece-03-e-bottom-white.png
+piece-03-e-bottom-black.png
+
+4.
+piece-04-z-top-white.png
+piece-04-z-top-black.png
+
+5.
+piece-05-z-diagonal-white.png
+piece-05-z-diagonal-black.png
+
+6.
+piece-06-z-bottom-white.png
+piece-06-z-bottom-black.png
+
+Read manifest.json before implementation.
+
+==================================================
+CRITICAL GEOMETRY RULE — NEVER BREAK THIS
+==================================================
+
+The black and white versions have IDENTICAL alpha geometry and IDENTICAL canvas dimensions.
+
+Every PNG is a FULL-CANVAS layer based on the original logo canvas.
+
+DO NOT crop any piece.
+DO NOT resize any piece independently.
+DO NOT assign independent left/top coordinates.
+DO NOT use different aspect ratios.
+DO NOT use flex/grid to reconstruct the logo.
+
+Create ONE shared responsive logo-stage.
+
+Inside it create SIX logical piece wrappers.
+
+Example concept:
+
+logo-stage
+  piece-wrapper-01
+    white version 01
+    black version 01
+
+  piece-wrapper-02
+    white version 02
+    black version 02
+
+  ...
+
+IMPORTANT:
+Animate ONLY each piece-wrapper.
+
+The black and white child images inside each wrapper must ALWAYS remain perfectly registered with each other.
+
+For BOTH children use the same rules:
+
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+object-fit: contain;
+pointer-events: none;
+
+The final transform of EVERY piece-wrapper must be EXACTLY:
+
+x: 0
+y: 0
+z: 0
+rotation: 0
+rotationX: 0
+rotationY: 0
+scale: 1
+skewX: 0
+skewY: 0
+
+When the wrappers reach identity transform, the result MUST reconstruct my exact original logo.
+
+NEVER animate the black and white copies separately.
+NEVER give the two color copies different transforms.
+
+==================================================
+BLACK / WHITE COLOR LOGIC
+==================================================
+
+The intro has two visual states:
+
+DARK BACKGROUND:
+Use the WHITE logo pieces.
+
+LIGHT / WEBSITE BACKGROUND:
+Use the BLACK logo pieces.
+
+When the intro background is:
+#141414 / near-black
+the visible logo color MUST be WHITE.
+
+When the intro background becomes:
+white / off-white / the exact existing website light background
+the visible logo color MUST be BLACK.
+
+If the website already has an existing CSS variable/token for its light background,
+USE THAT EXACT EXISTING COLOR instead of inventing another one.
+
+Do not tint the white image with CSS filters to create black.
+Do not tint the black image to create white.
+
+Use the supplied native black and white artwork.
+
+==================================================
+MOST IMPORTANT COLOR-SWAP IMPLEMENTATION
+==================================================
+
+The color transition must NOT cause the logo to jump, resize, move, or reconstruct again.
+
+Each black and white pair stays in the SAME piece-wrapper.
+
+Use opacity / clip-path / mask only between the two children.
+
+The shared wrapper keeps the exact same transform.
+
+Correct principle:
+
+pieceWrapper transform = assembly movement
+
+whiteChild visibility = dark-background state
+blackChild visibility = light-background state
+
+The geometry never changes when the color changes.
+
+For a premium transition:
+a vertical or diagonal background split can travel through the screen.
+
+As the light background passes behind the logo,
+reveal the black version of the SAME exact pieces in perfect sync.
+
+As the dark background is visible,
+reveal the white version.
+
+Make the boundary between background and logo color feel perfectly connected:
+dark field = white logo
+light field = black logo.
+
+There must never be:
+white logo on white background
+black logo on dark background
+or an unreadable mid-transition state.
+
+If using a moving mask/split:
+apply the same progress value to:
+1. background dark/light reveal
+2. white/black logo reveal
+
+This creates one synchronized black/white inversion.
+
+==================================================
+ANIMATION SEQUENCE
+==================================================
+
+Keep the premium precision assembly concept.
+
+Approx total duration:
+3.8–4.2 seconds.
+
+START:
+Full-screen near-black background.
+Exact logo pieces are separated through transform only.
+
+The WHITE versions are visible because the background is dark.
+
+ASSEMBLY:
+Animate the six wrappers:
+
+E TOP:
+controlled arrival from upper-left.
+
+E MIDDLE:
+subtle forward Z-depth movement.
+
+E BOTTOM:
+arrival from lower-left.
+
+Z TOP:
+arrival from upper-right.
+
+Z DIAGONAL:
+main visual key moment.
+Rotate/slide carefully into its exact original position.
+
+Z BOTTOM:
+arrival from lower-right.
+
+Use restrained perspective.
+Use smooth premium deceleration.
+No bounce.
+No rubber motion.
+No random spinning.
+
+Every wrapper ultimately returns to identity transform.
+
+==================================================
+BLACK / WHITE INVERSION MOMENT
+==================================================
+
+During the assembly or immediately before the precision lock,
+run ONE sophisticated light-background plane through the screen.
+
+As that plane crosses:
+- background changes from near-black to the website light/off-white
+- exact visible logo version changes from WHITE to BLACK
+- assembly transforms continue uninterrupted
+
+The transition should visually feel as if the logo changes polarity because the environment changes.
+
+The geometry MUST NOT move during the color swap.
+
+No generic fade-to-white covering the entire logo.
+Use a controlled geometric mask / split inspired by the E and Z.
+
+After the light plane completes,
+the screen should be the existing light website background color
+with the EXACT BLACK EZ logo.
+
+You can later transition back to dark if the actual Home hero requires dark,
+but always obey:
+DARK = WHITE LOGO
+LIGHT = BLACK LOGO.
+
+==================================================
+PRECISION LOCK
+==================================================
+
+During the last ~200ms of assembly,
+all six wrappers return precisely to transform identity.
+
+The assembled result MUST be exactly equal to the appropriate master:
+
+dark state:
+ez-logo-exact-white.png
+
+light state:
+ez-logo-exact-black.png
+
+Hold the finished logo briefly.
+
+==================================================
+SLOGAN
+==================================================
+
+Reveal the slogan only after the exact monogram is completely assembled.
+
+If background is dark:
+use ez-slogan-exact-white.png
+
+If background is light:
+use ez-slogan-exact-black.png
+
+Use the SAME color-state logic as the monogram.
+
+Never recreate the slogan as HTML text.
+Never modify tracking, font, proportions, or shape.
+
+Reveal it with a restrained horizontal/geometry mask.
+
+==================================================
+MANDATORY PIXEL-PERFECT VALIDATION
+==================================================
+
+Before finishing implementation:
+
+TEST DARK STATE:
+Overlay ez-logo-exact-white.png directly over the completed assembled WHITE pieces.
+
+TEST LIGHT STATE:
+Overlay ez-logo-exact-black.png directly over the completed assembled BLACK pieces.
+
+For development you may use:
+opacity: 0.5;
+mix-blend-mode: difference;
+
+There must be ZERO visible:
+- double edges
+- ghosting
+- spacing differences
+- scale differences
+- curve differences
+- Z diagonal differences
+- outline thickness differences
+- registration differences
+
+If there is ANY mismatch:
+STOP.
+Fix the assembly before proceeding.
+
+Also test the black/white transition halfway through.
+The two color layers must remain perfectly registered while the mask passes.
+
+Remove all debug overlays afterward.
+
+==================================================
+RESPONSIVE
+==================================================
+
+Scale only ONE parent logo-stage.
+
+Never resize individual pieces.
+
+Desktop and mobile must preserve exactly the same internal geometry.
+
+Keep safe horizontal padding.
+Never crop the logo.
+Never alter its aspect ratio.
+
+==================================================
+WEBSITE BEHAVIOR
+==================================================
+
+This remains an intro overlay for the EXISTING website.
+
+Do not redesign Home.
+Do not modify routes.
+Do not create another landing page.
+
+Render Home behind the intro.
+
+Run the intro on first website entry / hard refresh.
+Use sessionStorage so internal navigation does not replay it.
+
+When complete:
+reveal the actual Home page directly
+and remove the intro overlay from the DOM.
+
+No blank frame.
+No spinner.
+No loading percentage.
+No fake loading timer.
+
+Respect prefers-reduced-motion.
+
+Keep performance at 60fps where practical.
+Animate transform, opacity, clip-path/mask only.
+Clean up animation timelines/listeners after completion.
+
+FINAL RULE:
+
+DARK BACKGROUND = EXACT WHITE ORIGINAL LOGO.
+LIGHT / WEBSITE BACKGROUND = EXACT BLACK ORIGINAL LOGO.
+
+The color can change.
+The animation can move the pieces.
+
+THE LOGO GEOMETRY ITSELF MUST NEVER CHANGE.

@@ -1,20 +1,47 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export function RouteLoadingOverlay() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [targetPath, setTargetPath] = useState<string | null>(null);
 
-  // Derived loading state: active only when navigating to a new pathname
-  const isLoading = targetPath !== null && targetPath !== pathname;
+  // Clear targetPath whenever navigation completes (pathname or searchParams update)
+  useEffect(() => {
+    setTargetPath(null);
+  }, [pathname, searchParams]);
 
+  // Handle browser Back/Forward (popstate), page restoration (pageshow), and visibility
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    let timeoutId: NodeJS.Timeout;
+    const clearLoading = () => {
+      setTargetPath(null);
+    };
+
+    window.addEventListener("popstate", clearLoading);
+    window.addEventListener("pageshow", clearLoading);
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        clearLoading();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("popstate", clearLoading);
+      window.removeEventListener("pageshow", clearLoading);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  // Intercept client link clicks for pending loading state
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
     const handleAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest("a");
@@ -29,20 +56,20 @@ export function RouteLoadingOverlay() {
         target.target === "_blank" ||
         e.metaKey ||
         e.ctrlKey ||
-        e.shiftKey
+        e.shiftKey ||
+        e.altKey
       ) {
         return;
       }
 
       try {
         const url = new URL(href, window.location.href);
-        if (url.origin === window.location.origin && url.pathname !== window.location.pathname) {
-          setTargetPath(url.pathname);
-          // Fail-safe: automatically dismiss after 3.5 seconds if navigation stalls or fails
-          clearTimeout(timeoutId);
-          timeoutId = setTimeout(() => {
-            setTargetPath(null);
-          }, 3500);
+        const currentUrl = new URL(window.location.href);
+        if (
+          url.origin === currentUrl.origin &&
+          (url.pathname !== currentUrl.pathname || url.search !== currentUrl.search)
+        ) {
+          setTargetPath(url.pathname + url.search);
         }
       } catch {
         // Ignore invalid URLs
@@ -53,9 +80,11 @@ export function RouteLoadingOverlay() {
 
     return () => {
       document.removeEventListener("click", handleAnchorClick, { capture: true });
-      clearTimeout(timeoutId);
     };
-  }, [pathname]);
+  }, []);
+
+  const currentFull = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
+  const isLoading = targetPath !== null && targetPath !== currentFull && targetPath !== pathname;
 
   if (!isLoading) return null;
 
@@ -80,3 +109,4 @@ export function RouteLoadingOverlay() {
     </div>
   );
 }
+

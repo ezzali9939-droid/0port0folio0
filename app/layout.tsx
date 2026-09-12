@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { Great_Vibes } from "next/font/google";
 import "@fontsource-variable/manrope";
@@ -48,7 +49,9 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <EZIntroOverlay />
-        <RouteLoadingOverlay />
+        <Suspense fallback={null}>
+          <RouteLoadingOverlay />
+        </Suspense>
         <PageChoreography />
         <SiteHeader />
         {children}
@@ -57,4 +60,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 

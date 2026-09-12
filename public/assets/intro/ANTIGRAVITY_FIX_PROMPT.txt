@@ -1,0 +1,91 @@
+FIX THE EXISTING INTRO. THE CURRENT LOGO ASSEMBLY IS WRONG.
+
+Do not redesign the intro. Fix the logo construction first.
+
+CRITICAL RULE:
+The final assembled logo must be visually IDENTICAL to the supplied original EZ logo.
+No approximation, no redrawing, no independent resizing, no recreated typography, no guessed offsets.
+
+Use the new folder: /EZ_PixelPerfect_Intro
+
+Use:
+- ez-logo-exact-master.png as the FINAL truth/reference.
+- ez-monogram-exact.png as the exact completed monogram.
+- ez-slogan-exact.png as the exact slogan artwork.
+- piece-01.png ... piece-06.png for the animated construction.
+- manifest.json for canvas dimensions.
+- ez-assembly-common-canvas.svg if useful.
+
+IMPORTANT IMPLEMENTATION CHANGE:
+ALL six animated pieces are full-canvas layers with the SAME canvas dimensions as the original logo.
+Do NOT crop each piece into its own coordinate system.
+Do NOT give each piece a different SVG viewBox.
+Do NOT manually calculate final x/y offsets.
+
+Every piece must be rendered at:
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:contain;
+transform-origin:center;
+
+The ONLY difference between pieces during the intro is their temporary animation transform.
+
+THE FINAL STATE OF EVERY PIECE MUST BE:
+x: 0
+y: 0
+z: 0
+rotation: 0
+rotationX: 0
+rotationY: 0
+scale: 1
+skewX: 0
+skewY: 0
+
+When all transforms return to identity, the six layers automatically reconstruct the exact original artwork because their transparent pixels already contain their original coordinates.
+
+DO NOT:
+- stretch any piece
+- resize pieces independently
+- use flex/grid to assemble the logo
+- calculate left/top for each piece
+- rebuild the E or Z with CSS
+- trace the logo again
+- replace the logo with text
+- change stroke thickness
+- close/open hollow areas
+- alter curves
+- alter the Z diagonal
+- change spacing between E and Z
+
+FINAL VALIDATION IS MANDATORY:
+During development place ez-logo-exact-master.png directly over the assembled result with:
+opacity: 0.5;
+mix-blend-mode: difference;
+
+At the finished frame there must be NO visible doubled edge, ghosting, misalignment or silhouette difference.
+
+If there is ANY mismatch, do not continue to the slogan or Home transition. Fix the assembly first.
+
+ANIMATION:
+Keep the premium black/white intro concept, but animate ONLY the transform of these exact full-canvas piece layers.
+
+Pieces can start from controlled 3D offsets and rotations.
+Bring every piece back to transform identity.
+Use smooth premium deceleration with no bounce.
+
+After the exact logo is fully assembled:
+1. Hold the exact logo briefly.
+2. Reveal ez-slogan-exact.png underneath without changing its proportions.
+3. Transition directly into the existing Home page.
+
+The complete assembled frame must look exactly like ez-logo-exact-master.png before the Home transition begins.
+
+RESPONSIVE RULE:
+Put all pieces inside ONE shared logo-stage container.
+Scale the whole logo-stage responsively as one unit.
+Never resize individual pieces.
+Desktop and mobile must use exactly the same internal geometry.
+
+Do not change anything else in the website.

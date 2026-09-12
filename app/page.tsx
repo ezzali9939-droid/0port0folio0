@@ -17,13 +17,14 @@ export default function HomePage() {
         <InteractiveHeroPortfolio />
 
         {/* Completely Fixed Static Portrait Anchor (z-index: 3, zero motion) */}
-        <div className="home-portrait">
+        <div className="home-portrait" suppressHydrationWarning>
           <Image
             src="/assets/portraits/home-portrait-motion-transparent.webp"
             alt="Ezz Eldin, Graphic and Visual Designer"
             fill
             priority
             sizes="(max-width: 760px) 90vw, 54vw"
+            suppressHydrationWarning
           />
         </div>
       </div>

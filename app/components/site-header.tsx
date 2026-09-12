@@ -2,38 +2,43 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 const links = [
-  ["Home", "/"],
-  ["About", "/about"],
-  ["Work", "/work"],
-  ["Contact", "/contact"],
+  ["HOME", "/"],
+  ["ABOUT", "/about"],
+  ["WORK", "/work"],
+  ["CONTACT", "/contact"],
 ] as const;
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const shouldReduceMotion = useReducedMotion();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+
   const [prevPathname, setPrevPathname] = useState(pathname);
 
+  // Close mobile dropdown when route changes
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
     setMobileMenuOpen(false);
   }
 
-  // Prevent scrolling when mobile menu is open
+
+  // Click outside to close mobile dropdown panel
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
+    if (!mobileMenuOpen) return;
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setMobileMenuOpen(false);
+      }
     };
+    document.addEventListener("pointerdown", handleOutsideClick);
+    return () => document.removeEventListener("pointerdown", handleOutsideClick);
   }, [mobileMenuOpen]);
 
   const isActive = (href: string) => {
@@ -41,8 +46,18 @@ export function SiteHeader() {
     return pathname.startsWith(href);
   };
 
+  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    // Smoothly close menu first, then navigate
+    setTimeout(() => {
+      router.push(href);
+    }, 180);
+  };
+
   return (
     <motion.header
+      ref={headerRef}
       className="site-header shell"
       initial={{ opacity: 0, y: shouldReduceMotion ? 0 : -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -68,7 +83,7 @@ export function SiteHeader() {
               className={active ? "active-link" : ""}
               aria-current={active ? "page" : undefined}
             >
-              {label}
+              {label === "HOME" ? "Home" : label === "ABOUT" ? "About" : label === "WORK" ? "Work" : "Contact"}
             </Link>
           );
         })}
@@ -92,39 +107,54 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {mobileMenuOpen && (
-        <div
-          id="mobile-navigation"
-          className="mobile-menu-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile navigation"
-        >
-          <nav className="mobile-nav" aria-label="Mobile navigation links">
-            {links.map(([label, href]) => {
-              const active = isActive(href);
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className={`mobile-nav-link ${active ? "active-link" : ""}`}
-                  aria-current={active ? "page" : undefined}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span>{label}</span>
-                  {active && <span className="active-dot" aria-hidden="true" />}
-                </Link>
-              );
-            })}
-          </nav>
-          <div className="mobile-menu-footer">
-            <span className="availability">
-              <i />
-              Available for select projects
-            </span>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Soft transparent backdrop for click-outside closing */}
+            <motion.div
+              className="mobile-menu-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileMenuOpen(false)}
+              aria-hidden="true"
+            />
+
+            {/* Compact Floating Dropdown Panel */}
+            <motion.div
+              id="mobile-navigation"
+              className="mobile-dropdown-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -8 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <nav className="mobile-dropdown-nav" aria-label="Mobile navigation links">
+                {links.map(([label, href]) => {
+                  const active = isActive(href);
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      className={`mobile-dropdown-link ${active ? "active-link" : ""}`}
+                      aria-current={active ? "page" : undefined}
+                      onClick={(e) => handleMobileNavClick(e, href)}
+                    >
+                      <span>{label}</span>
+                      {active && <span className="mobile-active-dot" aria-hidden="true" />}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }
+

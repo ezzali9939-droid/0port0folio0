@@ -1,43 +1,185 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import gsap from "gsap";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
-const PATH_PIECE_01_E_TOP =
-  "M 3.00 0.00 L 3.00 14.00 L 4.00 15.00 L 4.00 19.00 L 5.00 20.00 L 5.00 24.00 L 6.00 25.00 L 6.00 27.00 L 9.00 32.00 L 9.00 34.00 L 10.00 35.00 L 10.00 36.00 L 12.00 38.00 L 12.00 39.00 L 13.00 40.00 L 13.00 41.00 L 15.00 43.00 L 15.00 44.00 L 19.00 48.00 L 19.00 49.00 L 24.00 54.00 L 25.00 54.00 L 29.00 58.00 L 30.00 58.00 L 32.00 60.00 L 35.00 61.00 L 37.00 63.00 L 39.00 63.00 L 40.00 64.00 L 41.00 64.00 L 44.00 66.00 L 46.00 66.00 L 47.00 67.00 L 50.00 67.00 L 51.00 68.00 L 56.00 68.00 L 57.00 69.00 L 311.00 69.00 L 312.00 68.00 L 317.00 68.00 L 318.00 67.00 L 321.00 67.00 L 324.00 65.00 L 326.00 65.00 L 327.00 64.00 L 328.00 64.00 L 329.00 63.00 L 330.00 63.00 L 331.00 62.00 L 334.00 61.00 L 336.00 59.00 L 337.00 59.00 L 339.00 57.00 L 340.00 57.00 L 344.00 53.00 L 345.00 53.00 L 345.00 52.00 L 353.00 44.00 L 353.00 43.00 L 357.00 38.00 L 357.00 37.00 L 358.00 36.00 L 358.00 35.00 L 361.00 30.00 L 361.00 28.00 L 362.00 27.00 L 362.00 25.00 L 363.00 24.00 L 363.00 22.00 L 364.00 21.00 L 364.00 17.00 L 365.00 16.00 L 365.00 0.00 Z M 11.00 10.00 L 13.00 8.00 L 356.00 8.00 L 357.00 9.00 L 357.00 15.00 L 356.00 16.00 L 356.00 19.00 L 355.00 20.00 L 355.00 23.00 L 354.00 24.00 L 354.00 25.00 L 353.00 26.00 L 353.00 28.00 L 352.00 29.00 L 352.00 30.00 L 350.00 32.00 L 349.00 35.00 L 347.00 37.00 L 347.00 38.00 L 334.00 51.00 L 333.00 51.00 L 331.00 53.00 L 330.00 53.00 L 328.00 55.00 L 327.00 55.00 L 324.00 57.00 L 322.00 57.00 L 321.00 58.00 L 319.00 58.00 L 318.00 59.00 L 316.00 59.00 L 315.00 60.00 L 311.00 60.00 L 310.00 61.00 L 59.00 61.00 L 58.00 60.00 L 53.00 60.00 L 52.00 59.00 L 50.00 59.00 L 49.00 58.00 L 47.00 58.00 L 46.00 57.00 L 44.00 57.00 L 43.00 56.00 L 40.00 55.00 L 38.00 53.00 L 35.00 52.00 L 29.00 46.00 L 28.00 46.00 L 26.00 44.00 L 26.00 43.00 L 22.00 39.00 L 22.00 38.00 L 18.00 33.00 L 18.00 32.00 L 15.00 27.00 L 15.00 25.00 L 14.00 24.00 L 14.00 22.00 L 13.00 21.00 L 13.00 19.00 L 12.00 18.00 L 12.00 12.00 L 11.00 11.00 Z";
+const emptySubscribe = () => () => {};
+function useIsMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
 
-const PATH_PIECE_02_E_MIDDLE =
-  "M 3.00 3.00 L 3.00 17.00 L 4.00 18.00 L 4.00 22.00 L 5.00 23.00 L 5.00 26.00 L 6.00 27.00 L 6.00 29.00 L 7.00 30.00 L 7.00 32.00 L 8.00 33.00 L 8.00 34.00 L 9.00 35.00 L 9.00 36.00 L 10.00 37.00 L 10.00 38.00 L 11.00 39.00 L 12.00 42.00 L 14.00 44.00 L 14.00 45.00 L 16.00 47.00 L 16.00 48.00 L 27.00 59.00 L 28.00 59.00 L 31.00 62.00 L 32.00 62.00 L 34.00 64.00 L 35.00 64.00 L 40.00 67.00 L 42.00 67.00 L 45.00 69.00 L 47.00 69.00 L 48.00 70.00 L 51.00 70.00 L 52.00 71.00 L 59.00 71.00 L 60.00 72.00 L 308.00 72.00 L 309.00 71.00 L 315.00 71.00 L 316.00 70.00 L 319.00 70.00 L 320.00 69.00 L 322.00 69.00 L 323.00 68.00 L 325.00 68.00 L 328.00 66.00 L 330.00 66.00 L 331.00 65.00 L 332.00 65.00 L 334.00 63.00 L 335.00 63.00 L 337.00 61.00 L 338.00 61.00 L 341.00 58.00 L 342.00 58.00 L 352.00 48.00 L 352.00 47.00 L 355.00 44.00 L 356.00 41.00 L 358.00 39.00 L 358.00 38.00 L 361.00 33.00 L 361.00 31.00 L 362.00 30.00 L 362.00 28.00 L 363.00 27.00 L 363.00 25.00 L 364.00 24.00 L 364.00 20.00 L 365.00 19.00 L 365.00 3.00 Z";
+// The 6 exact dual-color logo piece pairs.
+// Every PNG is a 956x412 full-canvas asset.
+// When wrapper transform reaches identity (x=0, y=0, z=0, rot=0, scale=1),
+// white pieces reconstruct ez-logo-exact-white.png and black pieces reconstruct ez-logo-exact-black.png.
+const PIECE_PAIRS = [
+  {
+    id: "p01",
+    className: "ez-piece-p01",
+    white: "/assets/intro/piece-01-e-top-white.png",
+    black: "/assets/intro/piece-01-e-top-black.png",
+    startX: -140,
+    startY: -90,
+    startZ: 160,
+    rotX: 24,
+    rotY: -15,
+    rotZ: -12,
+  },
+  {
+    id: "p02",
+    className: "ez-piece-p02",
+    white: "/assets/intro/piece-02-e-middle-white.png",
+    black: "/assets/intro/piece-02-e-middle-black.png",
+    startX: 0,
+    startY: 0,
+    startZ: 280,
+    rotX: -10,
+    rotY: 20,
+    rotZ: 8,
+  },
+  {
+    id: "p03",
+    className: "ez-piece-p03",
+    white: "/assets/intro/piece-03-e-bottom-white.png",
+    black: "/assets/intro/piece-03-e-bottom-black.png",
+    startX: -130,
+    startY: 90,
+    startZ: 140,
+    rotX: -22,
+    rotY: -10,
+    rotZ: 14,
+  },
+  {
+    id: "p04",
+    className: "ez-piece-p04",
+    white: "/assets/intro/piece-04-z-top-white.png",
+    black: "/assets/intro/piece-04-z-top-black.png",
+    startX: 140,
+    startY: -90,
+    startZ: 140,
+    rotX: 20,
+    rotY: 15,
+    rotZ: 12,
+  },
+  {
+    id: "p05",
+    className: "ez-piece-p05",
+    white: "/assets/intro/piece-05-z-diagonal-white.png",
+    black: "/assets/intro/piece-05-z-diagonal-black.png",
+    startX: 120,
+    startY: -50,
+    startZ: 220,
+    rotX: 15,
+    rotY: 25,
+    rotZ: -28,
+  },
+  {
+    id: "p06",
+    className: "ez-piece-p06",
+    white: "/assets/intro/piece-06-z-bottom-white.png",
+    black: "/assets/intro/piece-06-z-bottom-black.png",
+    startX: 130,
+    startY: 90,
+    startZ: 140,
+    rotX: -20,
+    rotY: 12,
+    rotZ: -14,
+  },
+];
 
-const PATH_PIECE_03_E_BOTTOM =
-  "M 3.00 17.00 L 4.00 18.00 L 4.00 23.00 L 5.00 24.00 L 5.00 27.00 L 6.00 28.00 L 6.00 30.00 L 8.00 33.00 L 8.00 35.00 L 9.00 36.00 L 9.00 37.00 L 10.00 38.00 L 11.00 41.00 L 13.00 43.00 L 13.00 44.00 L 15.00 46.00 L 15.00 47.00 L 18.00 50.00 L 18.00 51.00 L 25.00 58.00 L 26.00 58.00 L 30.00 62.00 L 31.00 62.00 L 33.00 64.00 L 34.00 64.00 L 35.00 65.00 L 36.00 65.00 L 41.00 68.00 L 43.00 68.00 L 46.00 70.00 L 49.00 70.00 L 50.00 71.00 L 53.00 71.00 L 54.00 72.00 L 314.00 72.00 L 315.00 71.00 L 318.00 71.00 L 319.00 70.00 L 321.00 70.00 L 322.00 69.00 L 324.00 69.00 L 325.00 68.00 L 327.00 68.00 L 328.00 67.00 L 329.00 67.00 L 330.00 66.00 L 333.00 65.00 L 335.00 63.00 L 336.00 63.00 L 338.00 61.00 L 339.00 61.00 L 343.00 57.00 L 344.00 57.00 L 351.00 50.00 L 351.00 49.00 L 354.00 46.00 L 354.00 45.00 L 356.00 43.00 L 356.00 42.00 L 357.00 41.00 L 358.00 38.00 L 360.00 36.00 L 360.00 34.00 L 362.00 31.00 L 362.00 29.00 L 363.00 28.00 L 363.00 26.00 L 364.00 25.00 L 364.00 21.00 L 365.00 20.00 L 365.00 7.00 L 366.00 6.00 L 365.00 5.00 L 365.00 3.00 L 4.00 3.00 L 3.00 4.00 Z M 11.00 13.00 L 12.00 12.00 L 356.00 12.00 L 357.00 13.00 L 357.00 18.00 L 356.00 19.00 L 356.00 22.00 L 355.00 23.00 L 355.00 26.00 L 354.00 27.00 L 354.00 29.00 L 353.00 30.00 L 353.00 31.00 L 352.00 32.00 L 351.00 35.00 L 349.00 37.00 L 349.00 38.00 L 347.00 40.00 L 347.00 41.00 L 344.00 44.00 L 344.00 45.00 L 342.00 47.00 L 341.00 47.00 L 341.00 48.00 L 338.00 51.00 L 337.00 51.00 L 333.00 55.00 L 332.00 55.00 L 330.00 57.00 L 329.00 57.00 L 328.00 58.00 L 327.00 58.00 L 322.00 61.00 L 320.00 61.00 L 319.00 62.00 L 316.00 62.00 L 315.00 63.00 L 312.00 63.00 L 311.00 64.00 L 57.00 64.00 L 56.00 63.00 L 53.00 63.00 L 52.00 62.00 L 49.00 62.00 L 48.00 61.00 L 46.00 61.00 L 45.00 60.00 L 44.00 60.00 L 43.00 59.00 L 42.00 59.00 L 41.00 58.00 L 38.00 57.00 L 36.00 55.00 L 35.00 55.00 L 31.00 51.00 L 30.00 51.00 L 25.00 46.00 L 25.00 45.00 L 21.00 41.00 L 20.00 38.00 L 18.00 36.00 L 18.00 35.00 L 15.00 30.00 L 15.00 28.00 L 14.00 27.00 L 14.00 25.00 L 13.00 24.00 L 13.00 22.00 L 12.00 21.00 L 12.00 16.00 L 11.00 15.00 Z";
+// Controlled, intentional geometric system around the EZ logo
+interface GeoElement {
+  id: string;
+  type: "dot" | "cross" | "line" | "arc" | "marker";
+  top: string;
+  left: string;
+  size: number;
+  depth: number;
+  rotation?: number;
+  lineWidth?: number;
+  driftX: number;
+  driftY: number;
+  rotateDelta?: number;
+  floatDuration: number;
+  scaleBreath?: number;
+  mobileHidden?: boolean;
+}
 
-const PATH_PIECE_04_Z_TOP =
-  "M 271.00 4.00 L 270.00 3.00 L 218.00 3.00 L 217.00 4.00 L 201.00 4.00 L 200.00 3.00 L 199.00 4.00 L 198.00 3.00 L 197.00 4.00 L 196.00 3.00 L 195.00 4.00 L 194.00 3.00 L 147.00 3.00 L 146.00 4.00 L 145.00 4.00 L 146.00 5.00 L 146.00 7.00 L 148.00 10.00 L 148.00 13.00 L 149.00 14.00 L 149.00 18.00 L 148.00 19.00 L 148.00 22.00 L 147.00 23.00 L 146.00 26.00 L 3.00 169.00 L 131.00 169.00 L 131.00 168.00 L 130.00 167.00 L 130.00 166.00 L 127.00 161.00 L 127.00 157.00 L 126.00 156.00 L 126.00 155.00 L 127.00 154.00 L 127.00 150.00 L 128.00 149.00 L 129.00 146.00 Z M 250.00 13.00 L 123.00 140.00 L 123.00 141.00 L 121.00 143.00 L 121.00 144.00 L 120.00 145.00 L 120.00 147.00 L 119.00 148.00 L 119.00 153.00 L 118.00 154.00 L 118.00 157.00 L 119.00 158.00 L 119.00 159.00 L 117.00 161.00 L 26.00 161.00 L 25.00 160.00 L 25.00 159.00 L 151.00 33.00 L 151.00 32.00 L 153.00 30.00 L 153.00 29.00 L 156.00 24.00 L 156.00 22.00 L 157.00 21.00 L 157.00 12.00 L 158.00 11.00 L 244.00 11.00 L 245.00 12.00 L 246.00 11.00 L 248.00 11.00 Z";
+const GEOMETRIC_ELEMENTS: GeoElement[] = [
+  { id: "g01", type: "marker", top: "18%", left: "14%", size: 16, depth: 100, rotation: 0, driftX: 18, driftY: 12, rotateDelta: 90, floatDuration: 4.2 },
+  { id: "g02", type: "cross", top: "26%", left: "24%", size: 12, depth: 140, driftX: -14, driftY: 16, rotateDelta: 360, floatDuration: 5.5 },
+  { id: "g03", type: "dot", top: "35%", left: "34%", size: 4, depth: 180, driftX: 10, driftY: -15, floatDuration: 3.8, scaleBreath: 0.25 },
+  { id: "g04", type: "line", top: "22%", left: "68%", size: 28, depth: 120, lineWidth: 28, driftX: -22, driftY: 8, rotateDelta: 15, floatDuration: 4.8 },
+  { id: "g05", type: "arc", top: "24%", left: "82%", size: 36, depth: 80, driftX: 16, driftY: -18, rotateDelta: 360, floatDuration: 6.2 },
+  { id: "g06", type: "marker", top: "20%", left: "88%", size: 16, depth: 110, rotation: 90, driftX: -12, driftY: 20, rotateDelta: -90, floatDuration: 5.0, mobileHidden: true },
+  { id: "g07", type: "dot", top: "74%", left: "28%", size: 4, depth: 160, driftX: -16, driftY: -12, floatDuration: 3.5, scaleBreath: 0.3 },
+  { id: "g08", type: "cross", top: "76%", left: "76%", size: 12, depth: 130, rotation: 45, driftX: 20, driftY: -14, rotateDelta: 180, floatDuration: 4.6 },
+  { id: "g09", type: "line", top: "80%", left: "50%", size: 24, depth: 200, rotation: 90, lineWidth: 24, driftX: -8, driftY: -22, rotateDelta: -30, floatDuration: 5.8, mobileHidden: true },
+  { id: "g10", type: "arc", top: "70%", left: "16%", size: 32, depth: 150, driftX: 22, driftY: 14, rotateDelta: -360, floatDuration: 6.8, mobileHidden: true },
+  { id: "g11", type: "marker", top: "82%", left: "86%", size: 16, depth: 90, rotation: 180, driftX: -18, driftY: -10, rotateDelta: 90, floatDuration: 4.4 },
+];
 
-const PATH_PIECE_05_Z_DIAGONAL =
-  "M 271.00 4.00 L 270.00 3.00 L 218.00 3.00 L 217.00 4.00 L 201.00 4.00 L 200.00 3.00 L 199.00 4.00 L 198.00 3.00 L 197.00 4.00 L 196.00 3.00 L 195.00 4.00 L 194.00 3.00 L 147.00 3.00 L 146.00 4.00 L 145.00 4.00 L 146.00 5.00 L 146.00 7.00 L 148.00 10.00 L 148.00 13.00 L 149.00 14.00 L 149.00 18.00 L 148.00 19.00 L 148.00 22.00 L 147.00 23.00 L 146.00 26.00 L 3.00 169.00 L 131.00 169.00 L 131.00 168.00 L 130.00 167.00 L 130.00 166.00 L 127.00 161.00 L 127.00 157.00 L 126.00 156.00 L 126.00 155.00 L 127.00 154.00 L 127.00 150.00 L 128.00 149.00 L 129.00 146.00 Z M 250.00 13.00 L 123.00 140.00 L 123.00 141.00 L 121.00 143.00 L 121.00 144.00 L 120.00 145.00 L 120.00 147.00 L 119.00 148.00 L 119.00 153.00 L 118.00 154.00 L 118.00 157.00 L 119.00 158.00 L 119.00 159.00 L 117.00 161.00 L 26.00 161.00 L 25.00 160.00 L 25.00 159.00 L 151.00 33.00 L 151.00 32.00 L 153.00 30.00 L 153.00 29.00 L 156.00 24.00 L 156.00 22.00 L 157.00 21.00 L 157.00 12.00 L 158.00 11.00 L 244.00 11.00 L 245.00 12.00 L 246.00 11.00 L 248.00 11.00 Z";
+function GeometricIcon({ type, rotation }: { type: GeoElement["type"]; rotation?: number }) {
+  const transform = rotation ? `rotate(${rotation}deg)` : undefined;
+  if (type === "dot") {
+    return <div className="ez-geo-dot" style={{ transform }} />;
+  }
+  if (type === "line") {
+    return <div className="ez-geo-line" style={{ transform }} />;
+  }
+  if (type === "cross") {
+    return (
+      <svg viewBox="0 0 12 12" className="ez-geo-svg" style={{ transform }}>
+        <path d="M 6 0 V 12 M 0 6 H 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="square" />
+      </svg>
+    );
+  }
+  if (type === "arc") {
+    return (
+      <svg viewBox="0 0 36 36" className="ez-geo-svg" style={{ transform }}>
+        <circle cx="18" cy="18" r="15" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="24 16" />
+      </svg>
+    );
+  }
+  if (type === "marker") {
+    return (
+      <svg viewBox="0 0 16 16" className="ez-geo-svg" style={{ transform }}>
+        <path d="M 0 16 V 0 H 16" fill="none" stroke="currentColor" strokeWidth="1.2" />
+      </svg>
+    );
+  }
+  return null;
+}
 
-const PATH_PIECE_06_Z_BOTTOM =
-  "M 3.00 37.00 L 3.00 45.00 L 4.00 46.00 L 4.00 48.00 L 5.00 49.00 L 5.00 50.00 L 6.00 51.00 L 7.00 54.00 L 11.00 58.00 L 12.00 58.00 L 14.00 60.00 L 15.00 60.00 L 16.00 61.00 L 18.00 61.00 L 19.00 62.00 L 313.00 62.00 L 314.00 61.00 L 316.00 61.00 L 317.00 60.00 L 320.00 59.00 L 325.00 55.00 L 325.00 54.00 L 327.00 52.00 L 327.00 51.00 L 329.00 48.00 L 329.00 45.00 L 330.00 44.00 L 330.00 39.00 L 329.00 38.00 L 329.00 35.00 L 328.00 34.00 L 328.00 33.00 L 327.00 32.00 L 326.00 29.00 L 323.00 26.00 L 323.00 25.00 L 314.00 16.00 L 313.00 16.00 L 309.00 12.00 L 306.00 11.00 L 304.00 9.00 L 303.00 9.00 L 300.00 7.00 L 298.00 7.00 L 297.00 6.00 L 295.00 6.00 L 294.00 5.00 L 292.00 5.00 L 291.00 4.00 L 287.00 4.00 L 286.00 3.00 L 32.00 3.00 L 32.00 4.00 L 31.00 5.00 L 30.00 5.00 L 30.00 6.00 L 29.00 7.00 L 28.00 7.00 L 28.00 8.00 L 27.00 9.00 L 26.00 9.00 L 13.00 22.00 L 13.00 23.00 L 12.00 24.00 L 11.00 24.00 L 9.00 26.00 L 9.00 27.00 L 6.00 30.00 L 6.00 31.00 L 4.00 34.00 L 4.00 36.00 Z";
-
-const PATH_SLOGAN =
-  "M 938.00 2.00 L 938.00 3.00 L 937.00 4.00 L 938.00 5.00 L 938.00 6.00 L 943.00 6.00 L 944.00 7.00 L 944.00 28.00 L 948.00 28.00 L 948.00 7.00 L 949.00 6.00 L 954.00 6.00 L 954.00 2.00 Z M 914.00 2.00 L 913.00 3.00 L 912.00 3.00 L 910.00 5.00 L 910.00 6.00 L 909.00 7.00 L 909.00 12.00 L 910.00 13.00 L 910.00 14.00 L 912.00 16.00 L 914.00 16.00 L 915.00 17.00 L 924.00 17.00 L 925.00 18.00 L 926.00 21.00 L 924.00 24.00 L 910.00 24.00 L 910.00 27.00 L 909.00 28.00 L 925.00 28.00 L 926.00 27.00 L 927.00 27.00 L 929.00 24.00 L 929.00 17.00 L 928.00 16.00 L 928.00 15.00 L 927.00 15.00 L 926.00 14.00 L 923.00 14.00 L 922.00 13.00 L 914.00 13.00 L 913.00 12.00 L 913.00 8.00 L 915.00 6.00 L 927.00 6.00 L 927.00 2.00 Z M 885.00 2.00 L 883.00 5.00 L 883.00 7.00 L 882.00 8.00 L 882.00 10.00 L 880.00 13.00 L 880.00 15.00 L 879.00 16.00 L 879.00 18.00 L 878.00 19.00 L 878.00 21.00 L 877.00 22.00 L 877.00 24.00 L 876.00 25.00 L 876.00 27.00 L 875.00 28.00 L 879.00 28.00 L 880.00 27.00 L 880.00 25.00 L 881.00 24.00 L 881.00 22.00 L 882.00 21.00 L 882.00 19.00 L 884.00 16.00 L 884.00 14.00 L 885.00 13.00 L 885.00 11.00 L 886.00 10.00 L 886.00 8.00 L 888.00 6.00 L 890.00 8.00 L 890.00 10.00 L 891.00 11.00 L 891.00 13.00 L 892.00 14.00 L 892.00 16.00 L 893.00 17.00 L 893.00 19.00 L 894.00 20.00 L 894.00 22.00 L 895.00 23.00 L 895.00 25.00 L 896.00 26.00 L 896.00 28.00 L 900.00 28.00 L 900.00 26.00 L 899.00 25.00 L 899.00 23.00 L 898.00 22.00 L 898.00 20.00 L 897.00 19.00 L 897.00 17.00 L 896.00 16.00 L 896.00 14.00 L 895.00 13.00 L 895.00 11.00 L 894.00 10.00 L 894.00 8.00 L 893.00 7.00 L 893.00 5.00 L 892.00 4.00 L 892.00 3.00 L 891.00 2.00 Z M 850.00 2.00 L 850.00 24.00 L 853.00 27.00 L 854.00 27.00 L 855.00 28.00 L 867.00 28.00 L 867.00 24.00 L 856.00 24.00 L 853.00 21.00 L 853.00 2.00 Z M 808.00 2.00 L 808.00 4.00 L 807.00 5.00 L 808.00 6.00 L 813.00 6.00 L 814.00 7.00 L 814.00 27.00 L 815.00 28.00 L 818.00 28.00 L 818.00 7.00 L 819.00 6.00 L 825.00 6.00 L 825.00 2.00 Z M 787.00 2.00 L 785.00 4.00 L 785.00 5.00 L 784.00 6.00 L 784.00 9.00 L 783.00 10.00 L 783.00 12.00 L 781.00 15.00 L 781.00 17.00 L 780.00 18.00 L 780.00 20.00 L 779.00 21.00 L 779.00 23.00 L 778.00 24.00 L 778.00 26.00 L 777.00 27.00 L 777.00 28.00 L 781.00 28.00 L 781.00 27.00 L 782.00 26.00 L 782.00 24.00 L 783.00 23.00 L 783.00 21.00 L 784.00 20.00 L 784.00 19.00 L 785.00 18.00 L 785.00 16.00 L 786.00 15.00 L 786.00 12.00 L 787.00 11.00 L 787.00 10.00 L 788.00 9.00 L 788.00 7.00 L 789.00 6.00 L 790.00 6.00 L 792.00 9.00 L 792.00 11.00 L 793.00 12.00 L 793.00 14.00 L 794.00 15.00 L 794.00 17.00 L 795.00 18.00 L 795.00 20.00 L 796.00 21.00 L 796.00 23.00 L 797.00 24.00 L 797.00 26.00 L 798.00 27.00 L 798.00 28.00 L 802.00 28.00 L 794.00 4.00 L 792.00 2.00 Z M 748.00 2.00 L 748.00 28.00 L 751.00 28.00 L 751.00 18.00 L 752.00 17.00 L 762.00 17.00 L 764.00 19.00 L 764.00 28.00 L 767.00 28.00 L 767.00 2.00 L 764.00 2.00 L 764.00 12.00 L 763.00 13.00 L 752.00 13.00 L 751.00 12.00 L 751.00 2.00 Z M 720.00 2.00 L 720.00 6.00 L 726.00 6.00 L 727.00 7.00 L 727.00 28.00 L 731.00 28.00 L 731.00 7.00 L 732.00 6.00 L 737.00 6.00 L 737.00 2.00 Z M 678.00 3.00 L 676.00 6.00 L 676.00 13.00 L 677.00 14.00 L 677.00 15.00 L 678.00 15.00 L 681.00 17.00 L 691.00 17.00 L 692.00 18.00 L 693.00 21.00 L 691.00 24.00 L 676.00 24.00 L 676.00 28.00 L 692.00 28.00 L 693.00 27.00 L 694.00 27.00 L 696.00 24.00 L 696.00 17.00 L 695.00 16.00 L 695.00 15.00 L 694.00 14.00 L 691.00 14.00 L 690.00 13.00 L 682.00 13.00 L 680.00 11.00 L 680.00 8.00 L 682.00 6.00 L 695.00 6.00 L 695.00 2.00 L 681.00 2.00 L 680.00 3.00 Z M 649.00 3.00 L 647.00 5.00 L 647.00 7.00 L 646.00 8.00 L 646.00 10.00 L 647.00 11.00 L 647.00 13.00 L 649.00 15.00 L 647.00 17.00 L 647.00 19.00 L 646.00 20.00 L 646.00 23.00 L 647.00 24.00 L 647.00 25.00 L 649.00 27.00 L 650.00 27.00 L 651.00 28.00 L 665.00 28.00 L 665.00 24.00 L 652.00 24.00 L 650.00 22.00 L 650.00 19.00 L 652.00 17.00 L 665.00 17.00 L 665.00 14.00 L 653.00 14.00 L 650.00 11.00 L 650.00 9.00 L 653.00 6.00 L 665.00 6.00 L 665.00 2.00 L 651.00 2.00 L 650.00 3.00 Z M 632.00 2.00 L 632.00 28.00 L 635.00 28.00 L 635.00 2.00 Z M 601.00 2.00 L 601.00 6.00 L 615.00 6.00 L 617.00 8.00 L 617.00 12.00 L 615.00 14.00 L 603.00 14.00 L 602.00 15.00 L 602.00 16.00 L 601.00 17.00 L 601.00 27.00 L 602.00 28.00 L 605.00 28.00 L 605.00 19.00 L 606.00 18.00 L 611.00 18.00 L 613.00 20.00 L 613.00 21.00 L 614.00 22.00 L 614.00 23.00 L 616.00 25.00 L 617.00 28.00 L 621.00 28.00 L 621.00 27.00 L 620.00 26.00 L 620.00 25.00 L 617.00 20.00 L 617.00 18.00 L 620.00 15.00 L 620.00 14.00 L 621.00 13.00 L 621.00 7.00 L 620.00 6.00 L 620.00 5.00 L 618.00 3.00 L 617.00 3.00 L 616.00 2.00 Z M 574.00 2.00 L 573.00 3.00 L 570.00 4.00 L 568.00 6.00 L 568.00 7.00 L 567.00 8.00 L 567.00 12.00 L 566.00 13.00 L 566.00 17.00 L 567.00 18.00 L 567.00 22.00 L 568.00 23.00 L 568.00 24.00 L 571.00 27.00 L 573.00 27.00 L 574.00 28.00 L 583.00 28.00 L 584.00 27.00 L 587.00 26.00 L 590.00 21.00 L 590.00 9.00 L 589.00 8.00 L 589.00 7.00 L 585.00 3.00 L 583.00 3.00 L 582.00 2.00 Z M 573.00 7.00 L 574.00 7.00 L 575.00 6.00 L 582.00 6.00 L 585.00 8.00 L 585.00 9.00 L 586.00 10.00 L 586.00 13.00 L 587.00 14.00 L 587.00 16.00 L 586.00 17.00 L 586.00 20.00 L 584.00 23.00 L 583.00 23.00 L 582.00 24.00 L 574.00 24.00 L 571.00 21.00 L 571.00 19.00 L 570.00 18.00 L 570.00 12.00 Z M 541.00 2.00 L 541.00 6.00 L 547.00 6.00 L 548.00 7.00 L 548.00 28.00 L 551.00 28.00 L 551.00 7.00 L 552.00 6.00 L 558.00 6.00 L 558.00 2.00 Z M 515.00 3.00 L 513.00 5.00 L 513.00 7.00 L 512.00 8.00 L 512.00 11.00 L 513.00 12.00 L 513.00 14.00 L 515.00 16.00 L 517.00 16.00 L 518.00 17.00 L 527.00 17.00 L 529.00 19.00 L 529.00 22.00 L 527.00 24.00 L 513.00 24.00 L 513.00 28.00 L 529.00 28.00 L 532.00 25.00 L 532.00 24.00 L 533.00 23.00 L 533.00 19.00 L 532.00 18.00 L 532.00 16.00 L 530.00 14.00 L 528.00 14.00 L 527.00 13.00 L 518.00 13.00 L 516.00 11.00 L 516.00 8.00 L 518.00 6.00 L 531.00 6.00 L 531.00 2.00 L 517.00 2.00 L 516.00 3.00 Z M 468.00 2.00 L 468.00 28.00 L 472.00 28.00 L 472.00 18.00 L 473.00 17.00 L 478.00 17.00 L 481.00 20.00 L 481.00 21.00 L 482.00 22.00 L 482.00 24.00 L 483.00 25.00 L 484.00 28.00 L 488.00 28.00 L 488.00 26.00 L 487.00 25.00 L 487.00 24.00 L 486.00 23.00 L 486.00 22.00 L 485.00 21.00 L 484.00 18.00 L 481.00 15.00 L 483.00 13.00 L 483.00 12.00 L 484.00 11.00 L 484.00 10.00 L 487.00 5.00 L 487.00 3.00 L 488.00 2.00 L 484.00 2.00 L 483.00 3.00 L 483.00 5.00 L 482.00 6.00 L 482.00 7.00 L 481.00 8.00 L 480.00 11.00 L 478.00 13.00 L 477.00 13.00 L 476.00 14.00 L 473.00 14.00 L 472.00 13.00 L 472.00 2.00 Z M 443.00 2.00 L 440.00 7.00 L 440.00 9.00 L 439.00 10.00 L 439.00 12.00 L 438.00 13.00 L 438.00 15.00 L 437.00 16.00 L 437.00 18.00 L 436.00 19.00 L 436.00 21.00 L 435.00 22.00 L 435.00 24.00 L 434.00 25.00 L 434.00 28.00 L 437.00 28.00 L 438.00 27.00 L 438.00 25.00 L 440.00 22.00 L 440.00 20.00 L 441.00 19.00 L 441.00 17.00 L 442.00 16.00 L 442.00 14.00 L 443.00 13.00 L 443.00 11.00 L 444.00 10.00 L 444.00 8.00 L 446.00 6.00 L 448.00 8.00 L 448.00 10.00 L 449.00 11.00 L 449.00 13.00 L 450.00 14.00 L 450.00 16.00 L 451.00 17.00 L 451.00 19.00 L 452.00 20.00 L 452.00 22.00 L 453.00 23.00 L 453.00 25.00 L 454.00 26.00 L 454.00 28.00 L 458.00 28.00 L 458.00 25.00 L 456.00 22.00 L 456.00 20.00 L 455.00 19.00 L 455.00 16.00 L 454.00 15.00 L 454.00 13.00 L 452.00 10.00 L 452.00 8.00 L 451.00 7.00 L 451.00 5.00 L 450.00 4.00 L 450.00 3.00 L 449.00 2.00 Z M 408.00 3.00 L 405.00 6.00 L 405.00 12.00 L 407.00 14.00 L 407.00 16.00 L 405.00 19.00 L 405.00 24.00 L 406.00 25.00 L 406.00 26.00 L 409.00 28.00 L 424.00 28.00 L 424.00 24.00 L 411.00 24.00 L 409.00 22.00 L 409.00 19.00 L 411.00 17.00 L 424.00 17.00 L 424.00 14.00 L 412.00 14.00 L 409.00 11.00 L 409.00 8.00 L 411.00 6.00 L 424.00 6.00 L 424.00 2.00 L 410.00 2.00 L 409.00 3.00 Z M 390.00 2.00 L 376.00 2.00 L 376.00 5.00 L 377.00 6.00 L 389.00 6.00 L 391.00 8.00 L 391.00 9.00 L 392.00 10.00 L 391.00 11.00 L 391.00 12.00 L 389.00 14.00 L 378.00 14.00 L 377.00 15.00 L 377.00 16.00 L 376.00 17.00 L 376.00 27.00 L 377.00 28.00 L 380.00 28.00 L 380.00 19.00 L 381.00 18.00 L 390.00 18.00 L 391.00 17.00 L 392.00 17.00 L 395.00 14.00 L 395.00 6.00 L 392.00 3.00 L 391.00 3.00 Z M 350.00 2.00 L 349.00 3.00 L 348.00 3.00 L 346.00 5.00 L 346.00 6.00 L 345.00 7.00 L 345.00 12.00 L 346.00 13.00 L 346.00 14.00 L 348.00 16.00 L 350.00 16.00 L 351.00 17.00 L 360.00 17.00 L 362.00 19.00 L 362.00 22.00 L 360.00 24.00 L 346.00 24.00 L 346.00 28.00 L 361.00 28.00 L 362.00 27.00 L 363.00 27.00 L 365.00 25.00 L 365.00 23.00 L 366.00 22.00 L 366.00 20.00 L 365.00 19.00 L 365.00 16.00 L 363.00 14.00 L 361.00 14.00 L 360.00 13.00 L 351.00 13.00 L 349.00 11.00 L 349.00 8.00 L 351.00 6.00 L 364.00 6.00 L 364.00 2.00 Z M 304.00 2.00 L 304.00 6.00 L 310.00 6.00 L 311.00 7.00 L 311.00 28.00 L 314.00 28.00 L 315.00 27.00 L 315.00 7.00 L 316.00 6.00 L 321.00 6.00 L 321.00 2.00 Z M 282.00 3.00 L 282.00 4.00 L 281.00 5.00 L 281.00 7.00 L 280.00 8.00 L 280.00 10.00 L 279.00 11.00 L 279.00 13.00 L 278.00 14.00 L 278.00 16.00 L 277.00 17.00 L 277.00 19.00 L 276.00 20.00 L 276.00 22.00 L 275.00 23.00 L 275.00 25.00 L 274.00 26.00 L 274.00 28.00 L 278.00 28.00 L 278.00 26.00 L 279.00 25.00 L 279.00 23.00 L 280.00 22.00 L 280.00 20.00 L 282.00 17.00 L 282.00 15.00 L 283.00 14.00 L 283.00 12.00 L 284.00 11.00 L 284.00 9.00 L 286.00 6.00 L 288.00 8.00 L 288.00 9.00 L 289.00 10.00 L 289.00 12.00 L 290.00 13.00 L 290.00 16.00 L 292.00 19.00 L 292.00 21.00 L 293.00 22.00 L 293.00 24.00 L 294.00 25.00 L 294.00 27.00 L 295.00 28.00 L 298.00 28.00 L 298.00 25.00 L 297.00 24.00 L 297.00 22.00 L 296.00 21.00 L 296.00 18.00 L 294.00 15.00 L 294.00 13.00 L 293.00 12.00 L 293.00 10.00 L 292.00 9.00 L 292.00 6.00 L 291.00 5.00 L 291.00 4.00 L 289.00 2.00 L 284.00 2.00 L 283.00 3.00 Z M 244.00 2.00 L 244.00 27.00 L 245.00 28.00 L 247.00 28.00 L 248.00 27.00 L 248.00 18.00 L 249.00 17.00 L 259.00 17.00 L 260.00 18.00 L 260.00 28.00 L 264.00 28.00 L 264.00 2.00 L 260.00 2.00 L 260.00 12.00 L 259.00 13.00 L 249.00 13.00 L 248.00 12.00 L 248.00 2.00 Z M 217.00 2.00 L 217.00 6.00 L 223.00 6.00 L 224.00 7.00 L 224.00 28.00 L 227.00 28.00 L 227.00 7.00 L 228.00 6.00 L 234.00 6.00 L 234.00 2.00 Z M 177.00 2.00 L 176.00 3.00 L 175.00 3.00 L 173.00 5.00 L 173.00 8.00 L 172.00 9.00 L 172.00 10.00 L 173.00 11.00 L 173.00 14.00 L 175.00 16.00 L 176.00 16.00 L 177.00 17.00 L 187.00 17.00 L 189.00 19.00 L 189.00 22.00 L 187.00 24.00 L 173.00 24.00 L 173.00 28.00 L 188.00 28.00 L 189.00 27.00 L 190.00 27.00 L 192.00 25.00 L 192.00 24.00 L 193.00 23.00 L 193.00 18.00 L 192.00 17.00 L 192.00 16.00 L 190.00 14.00 L 188.00 14.00 L 187.00 13.00 L 178.00 13.00 L 176.00 11.00 L 176.00 9.00 L 179.00 6.00 L 191.00 6.00 L 191.00 2.00 Z M 139.00 2.00 L 137.00 5.00 L 137.00 28.00 L 141.00 28.00 L 141.00 7.00 L 142.00 6.00 L 143.00 6.00 L 145.00 9.00 L 145.00 11.00 L 146.00 12.00 L 146.00 13.00 L 149.00 18.00 L 149.00 20.00 L 150.00 21.00 L 150.00 23.00 L 151.00 24.00 L 152.00 27.00 L 153.00 27.00 L 154.00 28.00 L 159.00 28.00 L 161.00 26.00 L 161.00 2.00 L 158.00 2.00 L 158.00 23.00 L 157.00 24.00 L 156.00 24.00 L 154.00 22.00 L 154.00 21.00 L 152.00 18.00 L 152.00 16.00 L 151.00 15.00 L 151.00 13.00 L 149.00 10.00 L 149.00 8.00 L 148.00 7.00 L 147.00 4.00 L 145.00 2.00 Z M 113.00 2.00 L 112.00 3.00 L 109.00 4.00 L 106.00 9.00 L 106.00 20.00 L 107.00 21.00 L 107.00 23.00 L 108.00 24.00 L 108.00 25.00 L 110.00 27.00 L 112.00 27.00 L 113.00 28.00 L 122.00 28.00 L 123.00 27.00 L 124.00 27.00 L 126.00 25.00 L 126.00 16.00 L 125.00 15.00 L 125.00 14.00 L 124.00 14.00 L 123.00 13.00 L 116.00 13.00 L 115.00 14.00 L 115.00 15.00 L 116.00 16.00 L 121.00 16.00 L 123.00 18.00 L 123.00 22.00 L 121.00 24.00 L 114.00 24.00 L 113.00 23.00 L 112.00 23.00 L 110.00 20.00 L 110.00 17.00 L 109.00 16.00 L 109.00 14.00 L 110.00 13.00 L 110.00 10.00 L 112.00 7.00 L 113.00 7.00 L 114.00 6.00 L 125.00 6.00 L 125.00 2.00 Z M 91.00 2.00 L 91.00 28.00 L 94.00 28.00 L 94.00 22.00 L 95.00 21.00 L 95.00 10.00 L 94.00 9.00 L 94.00 2.00 Z M 64.00 2.00 L 62.00 4.00 L 61.00 4.00 L 61.00 5.00 L 60.00 6.00 L 60.00 13.00 L 61.00 14.00 L 61.00 15.00 L 62.00 15.00 L 65.00 17.00 L 74.00 17.00 L 76.00 19.00 L 76.00 22.00 L 74.00 24.00 L 60.00 24.00 L 60.00 28.00 L 76.00 28.00 L 77.00 27.00 L 78.00 27.00 L 80.00 24.00 L 80.00 17.00 L 77.00 14.00 L 76.00 14.00 L 75.00 13.00 L 66.00 13.00 L 64.00 11.00 L 64.00 8.00 L 66.00 6.00 L 78.00 6.00 L 78.00 4.00 L 79.00 3.00 L 78.00 2.00 Z M 33.00 3.00 L 31.00 5.00 L 31.00 7.00 L 30.00 8.00 L 30.00 10.00 L 31.00 11.00 L 31.00 13.00 L 32.00 14.00 L 32.00 16.00 L 31.00 17.00 L 31.00 19.00 L 30.00 20.00 L 30.00 23.00 L 31.00 24.00 L 31.00 25.00 L 33.00 27.00 L 34.00 27.00 L 35.00 28.00 L 49.00 28.00 L 49.00 24.00 L 36.00 24.00 L 34.00 22.00 L 34.00 19.00 L 36.00 17.00 L 49.00 17.00 L 49.00 14.00 L 38.00 14.00 L 37.00 13.00 L 36.00 13.00 L 34.00 11.00 L 34.00 9.00 L 37.00 6.00 L 49.00 6.00 L 49.00 2.00 L 35.00 2.00 L 34.00 3.00 Z M 1.00 2.00 L 0.00 3.00 L 0.00 27.00 L 1.00 28.00 L 13.00 28.00 L 14.00 27.00 L 15.00 27.00 L 19.00 23.00 L 19.00 22.00 L 20.00 21.00 L 20.00 10.00 L 19.00 9.00 L 19.00 7.00 L 15.00 3.00 L 14.00 3.00 L 13.00 2.00 Z M 5.00 6.00 L 11.00 6.00 L 12.00 7.00 L 13.00 7.00 L 16.00 10.00 L 16.00 14.00 L 17.00 15.00 L 17.00 16.00 L 16.00 17.00 L 16.00 20.00 L 15.00 21.00 L 15.00 22.00 L 12.00 24.00 L 5.00 24.00 L 4.00 23.00 L 4.00 7.00 Z";
+function getIntroSnapshot() {
+  if (typeof window === "undefined") return false;
+  const params = new URLSearchParams(window.location.search);
+  return params.get("intro_test") === "true" || sessionStorage.getItem("ez_intro_seen") !== "true";
+}
 
 export function EZIntroOverlay() {
-  const [shouldRender, setShouldRender] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return sessionStorage.getItem("ez_intro_seen") !== "true";
-  });
+  const mounted = useIsMounted();
+  const shouldRenderFromStore = useSyncExternalStore(
+    emptySubscribe,
+    getIntroSnapshot,
+    () => false
+  );
+  const [dismissed, setDismissed] = useState(false);
+  const shouldRender = mounted && shouldRenderFromStore && !dismissed;
+
   const overlayRef = useRef<HTMLDivElement>(null);
-  const darkLogoRef = useRef<HTMLDivElement>(null);
-  const lightLogoRef = useRef<HTMLDivElement>(null);
+  const darkLayerRef = useRef<HTMLDivElement>(null);
   const lightLayerRef = useRef<HTMLDivElement>(null);
-  const sloganDarkRef = useRef<SVGElement>(null);
-  const sloganLightRef = useRef<SVGElement>(null);
+  const sloganDarkRef = useRef<HTMLImageElement>(null);
+  const sloganLightRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    if (!shouldRender || !overlayRef.current) return;
+    if (!mounted || !shouldRender || !overlayRef.current) return;
 
     // Lock scroll and pointer interactions during intro
     document.body.style.overflow = "hidden";
@@ -45,271 +187,299 @@ export function EZIntroOverlay() {
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const travelMult = isMobile ? 0.45 : 1;
 
-    const overlay = overlayRef.current;
-    const darkPieces = darkLogoRef.current?.querySelectorAll<HTMLElement>(".ez-piece");
-    const lightPieces = lightLogoRef.current?.querySelectorAll<HTMLElement>(".ez-piece");
-    const lightLayer = lightLayerRef.current;
-    const sloganDark = sloganDarkRef.current;
-    const sloganLight = sloganLightRef.current;
-
-    const travelMult = isMobile ? 0.55 : 1;
-
-    // Reduced motion branch: show logo & slogan for ~500ms then transition directly
+    // Reduced motion fallback: hold assembled logo briefly, then fade into Home
     if (reduceMotion) {
       const rmTl = gsap.timeline({
         onComplete: () => {
           sessionStorage.setItem("ez_intro_seen", "true");
           document.body.style.overflow = "";
           document.body.style.pointerEvents = "";
-          setShouldRender(false);
+          setDismissed(true);
         },
       });
 
-      rmTl.to(overlay, { opacity: 0, duration: 0.4, delay: 0.5, ease: "power2.inOut" });
+      rmTl.to(overlayRef.current, { opacity: 0, duration: 0.4, delay: 0.5, ease: "power2.inOut" });
       return;
     }
 
-    // Master Timeline (0.00s - 4.00s)
-    const tl = gsap.timeline({
-      onComplete: () => {
-        sessionStorage.setItem("ez_intro_seen", "true");
-        document.body.style.overflow = "";
-        document.body.style.pointerEvents = "";
-        setShouldRender(false);
-      },
-    });
+    const ctx = gsap.context(() => {
+      // 1. Setup & launch continuous ambient kinetic motion loops for geometric elements
+      GEOMETRIC_ELEMENTS.forEach((el) => {
+        const selectors = `.ez-geo-${el.id}`;
+        gsap.set(selectors, {
+          z: isMobile ? el.depth * 0.4 : el.depth,
+          opacity: 0,
+          scale: 0.8,
+          transformOrigin: "50% 50%",
+        });
 
-    // 0.00s - Initial 3D Offsets for assembly pieces
-    const pieceOffsets = [
-      { id: "piece-01-e-top", x: -160 * travelMult, y: -120 * travelMult, z: 140, rotX: 25, rotY: 0, rotZ: -10 },
-      { id: "piece-02-e-middle", x: -40 * travelMult, y: 0, z: 360, rotX: 0, rotY: 0, rotZ: 0 },
-      { id: "piece-03-e-bottom", x: -160 * travelMult, y: 120 * travelMult, z: 120, rotX: -20, rotY: 0, rotZ: 10 },
-      { id: "piece-04-z-top", x: 180 * travelMult, y: -120 * travelMult, z: 140, rotX: 22, rotY: 0, rotZ: 10 },
-      { id: "piece-05-z-diagonal", x: 140 * travelMult, y: -90 * travelMult, z: 280, rotX: 15, rotY: 30, rotZ: -45 },
-      { id: "piece-06-z-bottom", x: 180 * travelMult, y: 120 * travelMult, z: 120, rotX: -22, rotY: 0, rotZ: -10 },
-    ];
+        // Continuous Ambient Drifting (never stops)
+        const duration = el.floatDuration || 4.5;
+        const dx = el.driftX * (isMobile ? 0.5 : 1);
+        const dy = el.driftY * (isMobile ? 0.5 : 1);
 
-    // Set initial 3D positions for both dark and light layers
-    [darkPieces, lightPieces].forEach((group) => {
-      if (!group) return;
-      group.forEach((el) => {
-        const pId = el.dataset.piece;
-        const config = pieceOffsets.find((p) => p.id === pId);
-        if (config) {
-          gsap.set(el, {
-            x: config.x,
-            y: config.y,
-            z: config.z,
-            rotationX: config.rotX,
-            rotationY: config.rotY,
-            rotationZ: config.rotZ,
-            opacity: 0,
-            transformPerspective: 1200,
-            transformOrigin: "50% 50%",
+        gsap.to(selectors, {
+          x: `+=${dx}`,
+          y: `+=${dy}`,
+          duration: duration,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+
+        // Continuous Ambient Rotation
+        if (el.rotateDelta) {
+          gsap.to(selectors, {
+            rotation: `+=${el.rotateDelta}`,
+            duration: duration * 1.6,
+            ease: "none",
+            repeat: -1,
+          });
+        }
+
+        // Continuous Subtle Scale Breathing
+        if (el.scaleBreath) {
+          gsap.to(selectors, {
+            scale: 1 + el.scaleBreath,
+            duration: duration * 0.85,
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
           });
         }
       });
-    });
 
-    if (lightLayer) {
-      gsap.set(lightLayer, { clipPath: "polygon(0 0, 0% 0, 0% 100%, 0 100%)" });
-    }
-    [sloganDark, sloganLight].forEach((sloganEl) => {
-      if (sloganEl) {
-        gsap.set(sloganEl, { clipPath: "inset(0 100% 0 0)", y: 8, opacity: 0 });
+      // 2. Initial setup for 3D logo piece wrappers in both layers
+      PIECE_PAIRS.forEach((config) => {
+        const selectors = `.${config.className}`;
+        gsap.set(selectors, {
+          x: config.startX * travelMult,
+          y: config.startY * travelMult,
+          z: config.startZ * travelMult,
+          rotationX: config.rotX,
+          rotationY: config.rotY,
+          rotationZ: config.rotZ,
+          opacity: 0,
+          transformOrigin: "50% 50%",
+        });
+      });
+
+      // Clip light layer to 0% width initially (pure black dark layer underneath)
+      if (lightLayerRef.current) {
+        gsap.set(lightLayerRef.current, { clipPath: "polygon(0 0, 0% 0, 0% 100%, 0 100%)" });
       }
-    });
 
-    // 0.30s - 2.20s: 3D Piece Assembly
-    pieceOffsets.forEach((config) => {
-      const selectors = `.ez-piece[data-piece="${config.id}"]`;
-      tl.to(
-        selectors,
-        {
-          x: 0,
-          y: 0,
-          z: 0,
-          rotationX: 0,
-          rotationY: 0,
-          rotationZ: 0,
-          opacity: 1,
-          duration: config.id === "piece-05-z-diagonal" ? 1.85 : 1.75,
-          ease: "power3.out",
-        },
-        0.3
-      );
-    });
+      [sloganDarkRef.current, sloganLightRef.current].forEach((sloganEl) => {
+        if (sloganEl) {
+          gsap.set(sloganEl, { clipPath: "inset(0 100% 0 0)", opacity: 0 });
+        }
+      });
 
-    // 0.60s - 2.10s: B/W Light Plane Space Exchange Sweep
-    if (lightLayer) {
-      tl.to(
-        lightLayer,
-        {
-          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-          duration: 1.5,
-          ease: "power2.inOut",
+      // Master Entrance Timeline (0.00s – 3.75s)
+      const tl = gsap.timeline({
+        onComplete: () => {
+          sessionStorage.setItem("ez_intro_seen", "true");
+          document.body.style.overflow = "";
+          document.body.style.pointerEvents = "";
+          setDismissed(true);
         },
-        0.6
-      ).to(
-        lightLayer,
-        {
-          clipPath: "polygon(0 0, 0% 0, 0% 100%, 0 100%)",
-          duration: 0.6,
-          ease: "power2.inOut",
-        },
-        2.1
-      );
-    }
+      });
 
-    // 2.20s - 2.75s: Precision Lock Settle
-    [darkPieces, lightPieces].forEach((group) => {
-      if (!group) return;
-      tl.to(
-        group,
-        {
-          x: 0,
-          y: 0,
-          z: 0,
-          rotationX: 0,
-          rotationY: 0,
-          rotationZ: 0,
-          scale: 1,
-          duration: 0.25,
-          ease: "power2.out",
-        },
-        2.2
-      );
-    });
-
-    // 2.75s - 3.35s: Slogan Reveal underneath Logo
-    [sloganDark, sloganLight].forEach((sloganEl) => {
-      if (sloganEl) {
+      // 0.05s – 0.65s: Soft fade-in of controlled geometric markers
+      GEOMETRIC_ELEMENTS.forEach((el) => {
         tl.to(
-          sloganEl,
+          `.ez-geo-${el.id}`,
           {
-            clipPath: "inset(0 0% 0 0)",
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
+            opacity: 0.85,
+            scale: 1,
+            duration: 0.7,
             ease: "power2.out",
           },
-          2.75
+          0.05
+        );
+      });
+
+
+      // 0.25s – 1.85s: Synchronized 3D assembly of EZ logo pieces
+      PIECE_PAIRS.forEach((config) => {
+        const selectors = `.${config.className}`;
+        tl.to(
+          selectors,
+          {
+            x: 0,
+            y: 0,
+            z: 0,
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0,
+            opacity: 1,
+            duration: config.id === "p05" ? 1.6 : 1.45,
+            ease: "power3.out",
+          },
+          0.25
+        );
+      });
+
+
+      // 0.50s – 1.90s: Spatial background wipe sweep (Layer B clipPath 0% -> 100%)
+      // All surrounding elements and logo pieces invert color spatially as the wipe boundary passes underneath!
+      if (lightLayerRef.current) {
+        tl.to(
+          lightLayerRef.current,
+          {
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+            duration: 1.4,
+            ease: "power2.inOut",
+          },
+          0.5
         );
       }
-    });
 
-    // 3.35s - 4.00s: Geometric Transition into Home Page
-    tl.to(
-      ".ez-intro-stage",
-      {
-        scale: 0.94,
-        opacity: 0,
-        duration: 0.55,
-        ease: "power3.inOut",
-      },
-      3.35
-    ).to(
-      overlay,
-      {
-        opacity: 0,
-        duration: 0.45,
-        ease: "power2.inOut",
-      },
-      3.55
-    );
+      // 1.95s – 2.45s: Synchronized subtle magnetic pulse / orbital movement at logo completion
+      tl.to(
+        ".ez-logo-stage",
+        {
+          scale: 1.018,
+          rotationY: isMobile ? 0 : 2.5,
+          rotationX: isMobile ? 0 : -1.5,
+          duration: 0.35,
+          ease: "quad.out",
+        },
+        1.95
+      ).to(
+        ".ez-logo-stage",
+        {
+          scale: 1,
+          rotationY: 0,
+          rotationX: 0,
+          duration: 0.35,
+          ease: "quad.inOut",
+        },
+        2.3
+      );
+
+      // 2.40s – 2.95s: Reveal exact slogan artwork below monogram
+      [sloganDarkRef.current, sloganLightRef.current].forEach((sloganEl) => {
+        if (sloganEl) {
+          tl.to(
+            sloganEl,
+            {
+              clipPath: "inset(0 0% 0 0)",
+              opacity: 1,
+              duration: 0.55,
+              ease: "power2.out",
+            },
+            2.4
+          );
+        }
+      });
+
+      // 3.05s – 3.70s: Seamless Editorial Transition into Homepage
+      tl.to(
+        ".ez-logo-stage",
+        {
+          scale: isMobile ? 0.88 : 0.92,
+          y: isMobile ? -10 : -16,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power3.inOut",
+        },
+        3.05
+      )
+        .to(
+          ".ez-intro-accent-layer",
+          {
+            opacity: 0,
+            duration: 0.4,
+            ease: "power2.out",
+          },
+          3.05
+        )
+        .to(
+          overlayRef.current,
+          {
+            opacity: 0,
+            duration: 0.45,
+            ease: "power2.inOut",
+          },
+          3.25
+        );
+    }, overlayRef);
 
     return () => {
-      tl.kill();
+      ctx.revert();
       document.body.style.overflow = "";
       document.body.style.pointerEvents = "";
     };
-  }, [shouldRender]);
+  }, [mounted, shouldRender]);
 
-  if (!shouldRender) return null;
+  if (!mounted || !shouldRender) return null;
 
   return (
-    <div ref={overlayRef} className="ez-intro-overlay-root" role="dialog" aria-label="Intro Entrance Animation">
-      {/* Layer A: Base Dark Stage (#141414 Background, Pure White Logo #FFFFFF) */}
-      <div className="ez-intro-layer ez-layer-dark">
-        <div className="ez-intro-stage">
-          <div ref={darkLogoRef} className="ez-logo-assembly-container">
-            <svg viewBox="0 0 956 412" className="ez-intro-svg-master" aria-label="EZ Logo Master Assembly">
-              {/* Piece 01: E TOP (x: 99, y: 0) */}
-              <g className="ez-piece" data-piece="piece-01-e-top" transform="translate(99, 0)" style={{ color: "#ffffff" }}>
-                <path d={PATH_PIECE_01_E_TOP} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
+    <div ref={overlayRef} className="ez-intro-overlay-root" role="dialog" aria-label="Adaptive Contrast Intro Animation">
+      {/* Layer A: Base Dark Stage (#141414 Backdrop, Native White PNG Artwork & White Accents) */}
+      <div ref={darkLayerRef} className="ez-intro-layer ez-layer-dark">
+        <div className="ez-intro-accent-layer ez-accent-white" aria-hidden="true">
+          {GEOMETRIC_ELEMENTS.map((el) => (
+            <div
+              key={el.id}
+              className={`ez-geo-element ez-geo-${el.id} ${el.mobileHidden ? "ez-mobile-hidden" : ""}`}
+              style={{ top: el.top, left: el.left, width: el.size, height: el.size }}
+            >
+              <GeometricIcon type={el.type} rotation={el.rotation} />
+            </div>
+          ))}
+        </div>
 
-              {/* Piece 02: E MIDDLE (x: 99, y: 119) */}
-              <g className="ez-piece" data-piece="piece-02-e-middle" transform="translate(99, 119)" style={{ color: "#ffffff" }}>
-                <path d={PATH_PIECE_02_E_MIDDLE} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
+        <div className="ez-logo-stage">
+          {PIECE_PAIRS.map((piece) => (
+            <div key={piece.id} className={`ez-piece-wrapper ${piece.className}`} data-piece={piece.id}>
+              <img src={piece.white} alt="" className="ez-piece-child" />
+            </div>
+          ))}
 
-              {/* Piece 03: E BOTTOM (x: 99, y: 240) */}
-              <g className="ez-piece" data-piece="piece-03-e-bottom" transform="translate(99, 240)" style={{ color: "#ffffff" }}>
-                <path d={PATH_PIECE_03_E_BOTTOM} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-
-              {/* Piece 04: Z TOP (x: 490, y: 1) */}
-              <g className="ez-piece" data-piece="piece-04-z-top" transform="translate(490, 1)" style={{ color: "#ffffff" }}>
-                <path d={PATH_PIECE_04_Z_TOP} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-
-              {/* Piece 05: Z DIAGONAL (x: 546, y: 70) */}
-              <g className="ez-piece" data-piece="piece-05-z-diagonal" transform="translate(546, 70)" style={{ color: "#ffffff" }}>
-                <path d={PATH_PIECE_05_Z_DIAGONAL} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-
-              {/* Piece 06: Z BOTTOM (x: 514, y: 245) */}
-              <g className="ez-piece" data-piece="piece-06-z-bottom" transform="translate(514, 245)" style={{ color: "#ffffff" }}>
-                <path d={PATH_PIECE_06_Z_BOTTOM} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-
-              {/* Slogan (x: 0, y: 382) */}
-              <g ref={sloganDarkRef as unknown as React.Ref<SVGGElement>} className="ez-slogan" transform="translate(0, 382)" style={{ color: "#ffffff" }}>
-                <path d={PATH_SLOGAN} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-            </svg>
-          </div>
+          <img
+            ref={sloganDarkRef}
+            src="/assets/intro/ez-slogan-exact-white.png"
+            alt="Designs that speak. Stories that last."
+            className="ez-slogan-layer"
+          />
         </div>
       </div>
 
-      {/* Layer B: Light Plane Space Exchange Sweep (#F4F2ED Background, Dark Logo #141414) */}
+      {/* Layer B: Light Plane Sweep (Website Light Canvas Backdrop #eee8e2, Native Black PNG Artwork & Black Accents) */}
       <div ref={lightLayerRef} className="ez-intro-layer ez-layer-light" aria-hidden="true">
-        <div className="ez-intro-stage">
-          <div ref={lightLogoRef} className="ez-logo-assembly-container">
-            <svg viewBox="0 0 956 412" className="ez-intro-svg-master">
-              <g className="ez-piece" data-piece="piece-01-e-top" transform="translate(99, 0)" style={{ color: "#141414" }}>
-                <path d={PATH_PIECE_01_E_TOP} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
+        <div className="ez-intro-accent-layer ez-accent-black" aria-hidden="true">
+          {GEOMETRIC_ELEMENTS.map((el) => (
+            <div
+              key={el.id}
+              className={`ez-geo-element ez-geo-${el.id} ${el.mobileHidden ? "ez-mobile-hidden" : ""}`}
+              style={{ top: el.top, left: el.left, width: el.size, height: el.size }}
+            >
+              <GeometricIcon type={el.type} rotation={el.rotation} />
+            </div>
+          ))}
+        </div>
 
-              <g className="ez-piece" data-piece="piece-02-e-middle" transform="translate(99, 119)" style={{ color: "#141414" }}>
-                <path d={PATH_PIECE_02_E_MIDDLE} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
+        <div className="ez-logo-stage">
+          {PIECE_PAIRS.map((piece) => (
+            <div key={piece.id} className={`ez-piece-wrapper ${piece.className}`} data-piece={piece.id}>
+              <img src={piece.black} alt="" className="ez-piece-child" />
+            </div>
+          ))}
 
-              <g className="ez-piece" data-piece="piece-03-e-bottom" transform="translate(99, 240)" style={{ color: "#141414" }}>
-                <path d={PATH_PIECE_03_E_BOTTOM} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-
-              <g className="ez-piece" data-piece="piece-04-z-top" transform="translate(490, 1)" style={{ color: "#141414" }}>
-                <path d={PATH_PIECE_04_Z_TOP} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-
-              <g className="ez-piece" data-piece="piece-05-z-diagonal" transform="translate(546, 70)" style={{ color: "#141414" }}>
-                <path d={PATH_PIECE_05_Z_DIAGONAL} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-
-              <g className="ez-piece" data-piece="piece-06-z-bottom" transform="translate(514, 245)" style={{ color: "#141414" }}>
-                <path d={PATH_PIECE_06_Z_BOTTOM} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-
-              <g ref={sloganLightRef as unknown as React.Ref<SVGGElement>} className="ez-slogan" transform="translate(0, 382)" style={{ color: "#141414" }}>
-                <path d={PATH_SLOGAN} fill="currentColor" fillRule="evenodd" clipRule="evenodd" />
-              </g>
-            </svg>
-          </div>
+          <img
+            ref={sloganLightRef}
+            src="/assets/intro/ez-slogan-exact-black.png"
+            alt="Designs that speak. Stories that last."
+            className="ez-slogan-layer"
+          />
         </div>
       </div>
     </div>
   );
 }
+
+

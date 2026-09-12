@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 956 412" width="956" height="412">
+  <g id="ez-pieces">
+    <image id="piece-01" href="piece-01.png" x="0" y="0" width="956" height="412" preserveAspectRatio="xMidYMid meet"/>
+    <image id="piece-02" href="piece-02.png" x="0" y="0" width="956" height="412" preserveAspectRatio="xMidYMid meet"/>
+    <image id="piece-03" href="piece-03.png" x="0" y="0" width="956" height="412" preserveAspectRatio="xMidYMid meet"/>
+    <image id="piece-04" href="piece-04.png" x="0" y="0" width="956" height="412" preserveAspectRatio="xMidYMid meet"/>
+    <image id="piece-05" href="piece-05.png" x="0" y="0" width="956" height="412" preserveAspectRatio="xMidYMid meet"/>
+    <image id="piece-06" href="piece-06.png" x="0" y="0" width="956" height="412" preserveAspectRatio="xMidYMid meet"/>
+  </g>
+</svg>
